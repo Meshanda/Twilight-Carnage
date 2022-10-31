@@ -14,7 +14,7 @@ public class RpcTest : NetworkBehaviour
     [ClientRpc]
     void TestClientRpc(int value)
     {
-        if (IsClient)
+        if (IsClient && IsOwner)
         {
             Debug.Log("Client Received the RPC #" + value);
             TestServerRpc(value + 1);
