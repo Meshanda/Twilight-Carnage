@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Init : MonoBehaviour
 {
-    private const string MAIN_SCENE = "SampleScene";
+    private const string MAIN_SCENE = "MainMenu";
     async void Start()
     {
         await UnityServices.InitializeAsync();
