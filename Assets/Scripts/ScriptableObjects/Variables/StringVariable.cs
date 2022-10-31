@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StringVariable : MonoBehaviour
+namespace ScriptableObjects.Variables
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [CreateAssetMenu(menuName = "ScriptableObjects/Variables/String", fileName = "New StringVariable")]
+    public class StringVariable : GenericVariableSO<string>
+    { }
 }
