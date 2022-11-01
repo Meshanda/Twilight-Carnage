@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -19,7 +16,6 @@ public class PlayerNetworkShoot : NetworkBehaviour
         public int Damage;
         public int NbEnemyTouch;
         public float Speed;
-
         public int NbShoot;
         
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter

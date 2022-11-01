@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1665240098773860332}
   - component: {fileID: 2047032697505321635}
   - component: {fileID: 8332656944351514469}
+  - component: {fileID: 5347083606742197233}
   m_Layer: 0
   m_Name: Player_PowerUp
   m_TagString: Untagged
@@ -117,6 +118,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerShootData: {fileID: 11400000, guid: 19e97a222f0a31e4ebea35faca995e74, type: 2}
+--- !u!114 &5347083606742197233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7870853823469389581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a5c7f515b4f971409de9c5ceb3705d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nbShootUp: {fileID: 11400000, guid: 4ead9a74764b01640bea751362730850, type: 2}
+  _nbShootDown: {fileID: 11400000, guid: 07668db838f3f58439ec58d9dbf791ca, type: 2}
+  _bulletSpeedUp: {fileID: 11400000, guid: 56687e08dc1ba3f4dbc43e6eebed0895, type: 2}
+  _bulletSpeedDown: {fileID: 11400000, guid: 700f1e11c5a451f458c4b57699ddfd4a, type: 2}
 --- !u!1 &7870853824198062239
 GameObject:
   m_ObjectHideFlags: 0
