@@ -4,15 +4,38 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerNetworkData))]
 public class PlayerNetworkShoot : NetworkBehaviour
 {
     [SerializeField] private Transform _bulletPrefab;
 
     private BulletManager _bulletManager;
+    private PlayerShootData _playerShootData;
+
+    private float _bulletXOffset = 0.3f;
+
+    private struct ShootRPC : INetworkSerializable
+    {
+        public int Damage;
+        public int NbEnemyTouch;
+        public float Speed;
+
+        public int NbShoot;
+        
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref Damage);
+            serializer.SerializeValue(ref NbEnemyTouch);
+            serializer.SerializeValue(ref Speed);
+            
+            serializer.SerializeValue(ref NbShoot);
+        }
+    }
 
     private void Start()
     {
         _bulletManager = GameObject.Find("BulletManager").GetComponent<BulletManager>();
+        _playerShootData = GetComponent<PlayerNetworkData>().PlayerShootData;
     }
 
     private void Update()
@@ -21,24 +44,45 @@ public class PlayerNetworkShoot : NetworkBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ShootServerRpc();
+            ShootServerRpc(new ShootRPC()
+                        {
+                            Damage = _playerShootData.Damage, 
+                            Speed = _playerShootData.BulletSpeed, 
+                            NbEnemyTouch = _playerShootData.NbEnemyTouch, 
+                            NbShoot = _playerShootData.NbShoot
+                        });
         }
     }
-
-
+    
     [ServerRpc]
-    private void ShootServerRpc()
+    private void ShootServerRpc(ShootRPC shootData)
     {
-        Transform spawnedObject = Instantiate(_bulletPrefab, transform.position + Vector3.forward, Quaternion.identity);
-        spawnedObject.GetComponent<NetworkObject>().Spawn(true);
+        float startPosX = transform.position.x;
+       
+        if (shootData.NbShoot % 2 == 0)
+        {
+            startPosX -= (_bulletXOffset / 2);
+        }
 
-        Bullet bullet = spawnedObject.GetComponent<Bullet>();
+        startPosX -= (shootData.NbShoot - 1) / 2 * _bulletXOffset;
         
-        // Set Bullet specs ...
-        bullet.Life = 1;
-        bullet.Speed = 10;
-        
-        _bulletManager.AddBullet( bullet );
-        
+        for (int i = 0; i < shootData.NbShoot; i++)
+        {
+            Vector3 position = Vector3.forward; // decalage de 0.3
+            position += new Vector3(startPosX, 0, 0);
+            position += Vector3.right * i * _bulletXOffset;
+
+            Transform spawnedObject = Instantiate(_bulletPrefab, position, Quaternion.identity);
+            spawnedObject.GetComponent<NetworkObject>().Spawn(true);
+
+            Bullet bullet = spawnedObject.GetComponent<Bullet>();
+
+            // Set Bullet specs ...
+            bullet.Damage = shootData.Damage;
+            bullet.Life = shootData.NbEnemyTouch;
+            bullet.Speed = shootData.Speed;
+
+            _bulletManager.AddBullet(bullet);
+        }
     }
 }

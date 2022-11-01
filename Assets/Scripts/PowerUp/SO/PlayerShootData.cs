@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "ScriptableObjects/PlayerShootData")]
+public class PlayerShootData : ScriptableObject
+{
+    [Header("Bullet Data")] 
+    [SerializeField] private int _damage = 1;
+    [SerializeField] private int _nbEnemyTouch = 1;
+    [SerializeField] private float _bulletSpeed = 10;
+    [Header("Shoot Data")]
+    [SerializeField] private int _nbShoot = 1;
+    
+    
+    // Bullet data
+    public int Damage { get => _damage; set => _damage = value; }
+    public int NbEnemyTouch { get => _nbEnemyTouch; set => _nbEnemyTouch = value; } // == bullet life
+    public float BulletSpeed { get => _bulletSpeed; set => _bulletSpeed = value; }
+
+    // Shoot data
+    public int NbShoot { get => _nbShoot; set => _nbShoot = value; }
+}

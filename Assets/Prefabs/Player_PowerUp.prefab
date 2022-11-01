@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5762769962938810564}
   - component: {fileID: 1665240098773860332}
   - component: {fileID: 2047032697505321635}
+  - component: {fileID: 8332656944351514469}
   m_Layer: 0
   m_Name: Player_PowerUp
   m_TagString: Untagged
@@ -103,6 +104,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 8079844845925771088, guid: df4c1ce170ac4244d8441e18bd31aca8, type: 3}
+--- !u!114 &8332656944351514469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7870853823469389581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c29e595f2982174bbccbaa76e8f7967, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerShootData: {fileID: 11400000, guid: 19e97a222f0a31e4ebea35faca995e74, type: 2}
 --- !u!1 &7870853824198062239
 GameObject:
   m_ObjectHideFlags: 0
