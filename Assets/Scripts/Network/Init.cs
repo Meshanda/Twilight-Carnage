@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ParrelSync;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
@@ -10,7 +11,10 @@ public class Init : MonoBehaviour
     private const string MAIN_SCENE = "MainMenu";
     async void Start()
     {
-        await UnityServices.InitializeAsync();
+        var options = new InitializationOptions();
+        options.SetProfile(ClonesManager.IsClone() ? ClonesManager.GetArgument() : "MasterProfile");
+
+        await UnityServices.InitializeAsync(options);
 
         if (UnityServices.State == ServicesInitializationState.Initialized)
         {
@@ -36,5 +40,6 @@ public class Init : MonoBehaviour
     {
         Debug.Log($"Player Id: {AuthenticationService.Instance.PlayerId}");
         Debug.Log($"Token: {AuthenticationService.Instance.AccessToken}");
+        
     }
 }

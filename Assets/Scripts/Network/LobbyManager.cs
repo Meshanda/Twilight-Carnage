@@ -19,13 +19,14 @@ public class LobbyManager : GenericSingleton<LobbyManager>
         return _lobby?.LobbyCode;
     }
     
-    public async Task<bool> CreateLobby(int maxPlayers, bool isPrivate, Dictionary<string, string> data)
+    public async Task<bool> CreateLobby(int maxPlayers, bool isPrivate, Dictionary<string, string> data, Dictionary<string, string> lobbyData)
     {
         var playerData = SerializePlayerData(data);
         var player = new Player(AuthenticationService.Instance.PlayerId, null, playerData);
 
         var options = new CreateLobbyOptions()
         {
+            Data = SerializeLobbyData(lobbyData),
             IsPrivate = isPrivate,
             Player = player
         };
@@ -46,6 +47,7 @@ public class LobbyManager : GenericSingleton<LobbyManager>
         
         return true;
     }
+    
 
     private IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
     {
@@ -87,6 +89,19 @@ public class LobbyManager : GenericSingleton<LobbyManager>
 
         return playerData;
     }
+    
+    private Dictionary<string, DataObject> SerializeLobbyData(Dictionary<string, string> data)
+    {
+        var lobbyData = new Dictionary<string, DataObject>();
+        foreach (var (key,value) in data)
+        {
+            lobbyData.Add(key, new DataObject(
+                visibility: DataObject.VisibilityOptions.Member,
+                value: value));
+        }
+
+        return lobbyData;
+    }
 
     public void OnApplicationQuit()
     {
@@ -126,5 +141,51 @@ public class LobbyManager : GenericSingleton<LobbyManager>
         }
 
         return data;
+    }
+
+    public async Task<bool> UpdatePlayerData(string playerId, Dictionary<string, string> data)
+    {
+        var playerData = SerializePlayerData(data);
+
+        var options = new UpdatePlayerOptions()
+        {
+            Data = playerData
+        };
+
+        try
+        {
+            await LobbyService.Instance.UpdatePlayerAsync(_lobby.Id, playerId, options);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+
+        LobbyEvents.OnLobbyUpdated(_lobby);
+        
+        return true;
+    }
+
+    public async Task<bool> UpdateLobbyData(Dictionary<string, string> data)
+    {
+        var lobbyData = SerializeLobbyData(data);
+
+        var options = new UpdateLobbyOptions()
+        {
+            Data = lobbyData
+        };
+
+        try
+        {
+            _lobby = await LobbyService.Instance.UpdateLobbyAsync(_lobby.Id, options);
+        }
+        catch (SystemException)
+        {
+            return false;
+        }
+
+        LobbyEvents.OnLobbyUpdated(_lobby);
+
+        return true;
     }
 }

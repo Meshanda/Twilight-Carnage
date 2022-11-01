@@ -11,6 +11,7 @@ namespace Network
         private List<LobbyPlayerData> _lobbyPlayerDatas = new List<LobbyPlayerData>();
 
         private LobbyPlayerData _localLobbyPlayerData;
+        private LobbyData _lobbyData;
         
         private void OnEnable()
         {
@@ -26,8 +27,11 @@ namespace Network
         {
             var playerData = new LobbyPlayerData();
             playerData.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer");
+            
+            _lobbyData = new LobbyData();
+            _lobbyData.Initialize(0);
 
-            return await LobbyManager.Instance.CreateLobby(4, true, playerData.Serialize());
+            return await LobbyManager.Instance.CreateLobby(4, true, playerData.Serialize(), _lobbyData.Serialize());
         }
 
         public string GetLobbyCode()
@@ -60,13 +64,27 @@ namespace Network
                 
                 _lobbyPlayerDatas.Add(lobbyPlayerData);
             }
-            
+
+            _lobbyData = new LobbyData();
+            _lobbyData.Initialize(lobby.Data);
+
             GameLobbyEvents.OnLobbyUpdated?.Invoke();
         }
 
         public List<LobbyPlayerData> GetPlayers()
         {
             return _lobbyPlayerDatas;
+        }
+
+        public async Task<bool> SetPlayerReady()
+        {
+            _localLobbyPlayerData.IsReady = true;
+            return await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize());
+        }
+
+        public int GetMapIndex()
+        {
+            return _lobbyData.MapIndex;
         }
     }
 }
