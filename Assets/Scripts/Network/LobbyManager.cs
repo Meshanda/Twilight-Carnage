@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Network;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
@@ -67,6 +68,7 @@ public class LobbyManager : GenericSingleton<LobbyManager>
             if (newLobby.LastUpdated > _lobby.LastUpdated)
             {
                 _lobby = newLobby;
+                LobbyEvents.OnLobbyUpdated?.Invoke(_lobby);
             }
             
             yield return new WaitForSecondsRealtime(waitTimeSeconds);
@@ -112,5 +114,17 @@ public class LobbyManager : GenericSingleton<LobbyManager>
 
         _refreshCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
         return true;
+    }
+
+    public List<Dictionary<string, PlayerDataObject>> GetPlayersData()
+    {
+        var data = new List<Dictionary<string, PlayerDataObject>>();
+
+        foreach (var player in _lobby.Players)
+        {
+            data.Add(player.Data);
+        }
+
+        return data;
     }
 }
