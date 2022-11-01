@@ -14,8 +14,13 @@ public class EnemyScript : MonoBehaviour
 
     private void Start()
     {
-        Players = GameObject.FindGameObjectsWithTag("Player");
+        //Players = GameObject.FindGameObjectsWithTag("Player");
         StartCoroutine(ChoseTarget());
+    }
+
+    public void SetPlayer(GameObject[] players) 
+    {
+        Players = players;
     }
 
     // Update is called once per frame

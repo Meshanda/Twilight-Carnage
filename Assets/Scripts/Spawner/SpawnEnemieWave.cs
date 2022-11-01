@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class SpawnEnemieWave : MonoBehaviour
 {
@@ -9,11 +10,11 @@ public class SpawnEnemieWave : MonoBehaviour
     [SerializeField] private float _betweenObject;
     private List<GameObject> _toSpawn;
     
-    public void SpawnPool(int budget) //add what gameobject to spawn with the current budget
+    public void SpawnPool(int budget, List<GameObject> players) //add what gameobject to spawn with the current budget
     {
 
         _toSpawn = FillToSpawn(budget);
-       Spawn();
+       Spawn(players);
 
     }
 
@@ -31,9 +32,8 @@ public class SpawnEnemieWave : MonoBehaviour
         }
         return list;
     }
-    private void Spawn()
+    private void Spawn( List<GameObject> players )
     {
-        Debug.Log(_toSpawn.Count);
         //Debug.Log(nbreWave);
         for (int i = 0; i < _toSpawn.Count; i++)
         {
@@ -49,7 +49,11 @@ public class SpawnEnemieWave : MonoBehaviour
             }
 
             offSet = offSet * direction * Mathf.RoundToInt((i / 2f) + 0.1f) * _betweenObject ;
-            Instantiate(_toSpawn[i], transform.position + offSet, transform.rotation, transform);
+            GameObject go = Instantiate(_toSpawn[i], transform.position + offSet, transform.rotation, transform);
+            go.GetComponent<NetworkObject>().Spawn();
+
+            go.GetComponent<EnemyScript>().SetPlayer(players.ToArray());
+
         }
     }
 

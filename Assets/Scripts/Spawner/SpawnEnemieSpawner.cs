@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SpawnEnemieSpawner : MonoBehaviour
 {
-    [SerializeField] private List<Transform> _players;
+    [SerializeField] private List<GameObject> _players;
     [SerializeField] private GameObject _enemySpawner;
 
     [SerializeField] private float _distanceFromPlayer;
@@ -53,7 +53,7 @@ public class SpawnEnemieSpawner : MonoBehaviour
                 if (i == playerIndex || _players[i] == null)
                     continue;
 
-                opposingVector += (_players[i].position - _players[playerIndex].position).normalized;
+                opposingVector += (_players[i].transform.position - _players[playerIndex].transform.position).normalized;
             }
 
             opposingVector = -opposingVector.normalized;
@@ -63,13 +63,13 @@ public class SpawnEnemieSpawner : MonoBehaviour
 
             opposingVector = opposingVector.normalized;
 
-            GameObject go = Instantiate(_enemySpawner, _players[playerIndex].position + opposingVector * _distanceFromPlayer, Quaternion.identity);
-            go.GetComponent<SpawnEnemieWave>().SpawnPool(_budget);
+            GameObject go = Instantiate(_enemySpawner, _players[playerIndex].transform.position + opposingVector * _distanceFromPlayer, Quaternion.identity);
+            go.GetComponent<SpawnEnemieWave>().SpawnPool(_budget, _players);
             _opposingVectorDebug = opposingVector;
 
             _playerIndexDebug = playerIndex;
 
-            go.transform.LookAt(_players[j]);
+            go.transform.LookAt(_players[j].transform);
         }
         nextBudget();
     }
@@ -81,6 +81,6 @@ public class SpawnEnemieSpawner : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(_players[_playerIndexDebug].position, _players[_playerIndexDebug].position + _opposingVectorDebug * _distanceFromPlayer);
+        Gizmos.DrawLine(_players[_playerIndexDebug].transform.position, _players[_playerIndexDebug].transform.position + _opposingVectorDebug * _distanceFromPlayer);
     }
 }

@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aea582107fd1364a8c704331268ad41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
   table:
-  - enemie: {fileID: 7089875724959165694, guid: 982f5df2e10ae164ca5d94a1089243f0, type: 3}
+  - enemie: {fileID: 2472474379203660037, guid: 9ac35d46e0ec9e94aad875e1b1faf687, type: 3}
     hp: 0
     speed: 0
     cost: 1
