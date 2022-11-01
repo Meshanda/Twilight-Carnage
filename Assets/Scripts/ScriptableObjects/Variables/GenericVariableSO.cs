@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace ScriptableObjects.Variables
 {
     public class GenericVariableSO<T> : ScriptableObject
     {
