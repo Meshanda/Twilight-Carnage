@@ -11,7 +11,10 @@ public class LobbyUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _lobbyCodeText;
     
+    [Space(10)]
+    [Header("Ready Button")]
     [SerializeField] private Button _readyButton;
+    [SerializeField] private TextMeshProUGUI _readyText;
     
     [Space(10)]
     [Header("Map Selection")]
@@ -88,7 +91,8 @@ public class LobbyUI : MonoBehaviour
     private async void OnReadyPressed()
     {
         var isReady = GameLobbyManager.Instance.IsPlayerReady();
-            
+        _readyText.text = isReady ? "Not Ready" : "Ready";
+
         await GameLobbyManager.Instance.SetPlayerReady(!isReady);
     }
 

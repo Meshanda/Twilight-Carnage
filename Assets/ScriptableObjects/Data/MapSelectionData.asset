@@ -15,10 +15,10 @@ MonoBehaviour:
   Maps:
   - MapThumbnail: {r: 0, g: 1, b: 0.9184933, a: 1}
     MapName: Map 1
-    SceneName: 
+    SceneName: Map1
   - MapThumbnail: {r: 1, g: 0, b: 0.84019756, a: 1}
     MapName: Map 2
-    SceneName: 
+    SceneName: Map2
   - MapThumbnail: {r: 0.15972686, g: 1, b: 0, a: 1}
     MapName: Map 3
-    SceneName: 
+    SceneName: Map3
