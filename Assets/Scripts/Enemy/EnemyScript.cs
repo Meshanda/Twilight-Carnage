@@ -2,6 +2,7 @@ using ScriptableObjects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -14,12 +15,12 @@ public class EnemyScript : MonoBehaviour
     private void Start()
     {
         Players = GameObject.FindGameObjectsWithTag("Player");
+        StartCoroutine(ChoseTarget());
     }
 
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(ChoseTarget());
         if (Target)
         {
             transform.LookAt(Target.transform);
@@ -29,7 +30,10 @@ public class EnemyScript : MonoBehaviour
 
     IEnumerator ChoseTarget()
     {
-        Target = EnemyBehaviourSO.ChoseTargettedPlayer(Players, gameObject);
-        yield return new WaitForSeconds(2f);
+        while (true)
+        {
+            Target = EnemyBehaviourSO.ChoseTargettedPlayer(Players, gameObject);
+            yield return new WaitForSeconds(2f);
+        }
     }
 }
