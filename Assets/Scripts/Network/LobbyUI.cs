@@ -22,21 +22,15 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private MapSelectionData _mapSelectionData;
     private int _currentMapIndex = 0;
     
-    [Space(10)]
-    [Header("Skin Selection")]
-    [SerializeField] private Button _skinLeftButton;
-    [SerializeField] private Button _skinRightButton;
-    [SerializeField] private TextMeshProUGUI _skinName;
-    [SerializeField] private SkinSelectionData _skinSlectionData;
-    private int _currentSkinIndex = 0;
-
     private void OnEnable()
     {
         _readyButton.onClick.AddListener(OnReadyPressed);
-        _mapLeftButton.onClick.AddListener(OnMapLeftButtonClicked);
-        _mapRightButton.onClick.AddListener(OnMapRightButtonClicked);
-        _skinLeftButton.onClick.AddListener(OnSkinLeftButtonClicked);
-        _skinRightButton.onClick.AddListener(OnSkinRightButtonClicked);
+
+        if (GameLobbyManager.Instance.IsHost)
+        {
+            _mapLeftButton.onClick.AddListener(OnMapLeftButtonClicked);
+            _mapRightButton.onClick.AddListener(OnMapRightButtonClicked);
+        }
 
         GameLobbyEvents.OnLobbyUpdated += OnLobbyUpdated;
     }
@@ -46,13 +40,22 @@ public class LobbyUI : MonoBehaviour
         _readyButton.onClick.RemoveAllListeners();
         _mapLeftButton.onClick.RemoveAllListeners();
         _mapRightButton.onClick.RemoveAllListeners();
-        _skinLeftButton.onClick.RemoveAllListeners();
-        _skinRightButton.onClick.RemoveAllListeners();
         
         GameLobbyEvents.OnLobbyUpdated -= OnLobbyUpdated;
     }
 
-    private void OnMapLeftButtonClicked()
+    private void Start()
+    {
+        _lobbyCodeText.text = "Lobby code: " + GameLobbyManager.Instance.GetLobbyCode();
+
+        if (!GameLobbyManager.Instance.IsHost)
+        {
+            _mapLeftButton.gameObject.SetActive(false);
+            _mapRightButton.gameObject.SetActive(false);
+        }
+    }
+    
+    private async void OnMapLeftButtonClicked()
     {
         if (_currentMapIndex - 1 >= 0)
         {
@@ -64,9 +67,11 @@ public class LobbyUI : MonoBehaviour
         }
 
         UpdateMap();
+        GameLobbyManager.Instance.SetSelectedMap(_currentMapIndex);
+
     }
 
-    private void OnMapRightButtonClicked()
+    private async void OnMapRightButtonClicked()
     {
         if (_currentMapIndex + 1 <= _mapSelectionData.Maps.Count - 1)
         {
@@ -78,58 +83,19 @@ public class LobbyUI : MonoBehaviour
         }
 
         UpdateMap();
-    }
-
-    private void OnSkinLeftButtonClicked()
-    {
-        if (_currentSkinIndex - 1 >= 0)
-        {
-            _currentSkinIndex++;
-        }
-        else
-        {
-            _currentSkinIndex = _skinSlectionData.Skins.Count - 1;
-        }
-
-        UpdateSkin();
-    }
-
-    private void OnSkinRightButtonClicked()
-    {
-        if (_currentSkinIndex + 1 <= _skinSlectionData.Skins.Count - 1)
-        {
-            _currentSkinIndex++;
-        }
-        else
-        {
-            _currentSkinIndex = 0;
-        }
-
-        UpdateSkin();
+        GameLobbyManager.Instance.SetSelectedMap(_currentMapIndex);
     }
     private async void OnReadyPressed()
     {
-        bool succeeded = await GameLobbyManager.Instance.SetPlayerReady();
-        if (succeeded)
-        {
-            _readyButton.gameObject.SetActive(false);
-        }
-    }
-
-    private void Start()
-    {
-        _lobbyCodeText.text = "Lobby code: " + GameLobbyManager.Instance.GetLobbyCode();
+        var isReady = GameLobbyManager.Instance.IsPlayerReady();
+            
+        await GameLobbyManager.Instance.SetPlayerReady(!isReady);
     }
 
     private void UpdateMap()
     {
         _mapImage.color = _mapSelectionData.Maps[_currentMapIndex].MapThumbnail;
         _mapName.text = _mapSelectionData.Maps[_currentMapIndex].MapName;
-    }
-
-    private void UpdateSkin()
-    {
-        _skinName.text = _skinSlectionData.Skins[_currentSkinIndex].SkinName;
     }
     
     private void OnLobbyUpdated()

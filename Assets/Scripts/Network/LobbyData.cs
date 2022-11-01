@@ -8,7 +8,11 @@ public class LobbyData
 {
     private int _mapIndex;
 
-    public int MapIndex { get; set; }
+    public int MapIndex
+    {
+        get => _mapIndex;
+        set => _mapIndex = value;
+    }
 
     public void Initialize(int mapIndex)
     {

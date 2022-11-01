@@ -188,4 +188,9 @@ public class LobbyManager : GenericSingleton<LobbyManager>
 
         return true;
     }
+
+    public string GetHostId()
+    {
+        return _lobby.HostId;
+    }
 }

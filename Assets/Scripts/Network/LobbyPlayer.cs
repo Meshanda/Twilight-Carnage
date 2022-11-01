@@ -38,6 +38,13 @@ public class LobbyPlayer : MonoBehaviour
                 ChangeMaterial(_readyColor);
             }
         }
+        else
+        {
+            if (_renderer != null)
+            {
+                ChangeMaterial(_notReadyColor);
+            }
+        }
         
         gameObject.SetActive(true);
     }
