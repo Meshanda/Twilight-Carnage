@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BaseEnemy
   m_EditorClassIdentifier: 
   MaxHealth: 100
-  Health: 100
-  BaseMovespeed: 10
+  Movespeed: 5
+  XPValue: 0

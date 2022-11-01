@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 2472474379203660058}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,6 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyBehaviourSO: {fileID: 11400000, guid: 7854d61e69ae087488d2cce4a5d61439, type: 2}
   EnemyStatSO: {fileID: 11400000, guid: 2ca13a8bf33e58244bb659e7d30ed499, type: 2}
+  TimeBetweenRetarget: 0
 --- !u!114 &2472474379203660058
 MonoBehaviour:
   m_ObjectHideFlags: 0

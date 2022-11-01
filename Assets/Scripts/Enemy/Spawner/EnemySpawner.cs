@@ -20,8 +20,9 @@ public class EnemySpawner : MonoBehaviour
             StatusLabels();
 
             StartSpawning();
-        }
 
+        }
+        DamageEnemy();
         GUILayout.EndArea();
     }
 
@@ -53,13 +54,25 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
+
+    void DamageEnemy()
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            if (GUILayout.Button("Damage Enemy"))
+            {
+                GameObject Target = GameObject.FindGameObjectWithTag("Enemy");
+                Target.GetComponent<EnemyScript>().TakeDamage(10);
+            }
+        }
+    }
     IEnumerator SpawnEnemy()
     {
-        while (true)
-        {
+        //while (true)
+        //{
             GameObject Enemy = Instantiate(EnemyToSpawn, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
             Enemy.GetComponent<NetworkObject>().Spawn();
             yield return new WaitForSeconds(TimeBetweenSpawn);
-        }
+        //}
     }
 }
