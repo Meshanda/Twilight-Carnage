@@ -6,7 +6,7 @@ namespace ScriptableObjects
 {
     public abstract class GenericEnemyBehaviourSO : ScriptableObject
     {
-        public abstract GameObject ChoseTargettedPlayer(GameObject[] Players, GameObject Enemy);
+        public abstract GameObject ChoseTargettedPlayer(GameObject[] players, GameObject enemy);
     }
 }
 

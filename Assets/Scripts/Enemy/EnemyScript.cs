@@ -3,43 +3,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Serialization;
 
 public class EnemyScript : NetworkBehaviour
 {
-    [SerializeField] private GenericEnemyBehaviourSO EnemyBehaviourSO;
-    [SerializeField] private GenericEnemyStatSO EnemyStatSO;
-    [SerializeField] private float TimeBetweenRetarget;
+    [SerializeField] private GenericEnemyBehaviourSO enemyBehaviourSO;
+    [SerializeField] private GenericEnemyStatSO enemyStatSO;
+    [SerializeField] private GenericLootTableSO enemyLootTableSO;
+    [SerializeField] private float timeBetweenRetarget;
 
-    private NetworkVariable<float> Health = new NetworkVariable<float>();
-    private GameObject[] Players;
-    private GameObject Target;
-    private Transform thisTransform;
+    private NetworkVariable<float> _health = new NetworkVariable<float>();
+    private GameObject[] _players;
+    private GameObject _target;
+    private Transform _thisTransform;
     private void Start()
     {
-        thisTransform = transform;
+        _thisTransform = transform;
         if (NetworkManager.Singleton.IsServer)
         {
-            Health.Value = EnemyStatSO.MaxHealth;   
+            _health.Value = enemyStatSO.MaxHealth;   
         }
-        Players = GameObject.FindGameObjectsWithTag("Player");
+        _players = GameObject.FindGameObjectsWithTag("Player");
         StartCoroutine(ChoseTarget());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Target)
+        if (_target)
         {
-            thisTransform.LookAt(Target.transform);
-            thisTransform.position += thisTransform.forward * (EnemyStatSO.Movespeed * Time.deltaTime);
+            _thisTransform.LookAt(_target.transform);
+            _thisTransform.position += _thisTransform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
-        Debug.Log("Remaining Health : " + Health.Value);
+        Debug.Log("Remaining Health : " + _health.Value);
     }
 
-    public void TakeDamage(float Hit)
+    public void TakeDamage(float hit)
     {
-        Health.Value -= Hit;
-        if (Health.Value <= 0)
+        _health.Value -= hit;
+        if (_health.Value <= 0)
         {
             Death();
         }
@@ -47,7 +49,25 @@ public class EnemyScript : NetworkBehaviour
     
     void Death()
     {
-        //TODO: Implement xp
+        GenericItemSO GISO =  enemyLootTableSO.DroppedItem();
+        if (GISO)
+        {
+            GameObject test = Instantiate(GISO.GetItemPrefab(), transform.position, new Quaternion());
+            test.GetComponent<NetworkObject>().Spawn();
+            Debug.Log("Dropped item name : " + test.name);
+        }
+        else
+        {
+            Debug.Log("No item dropped");
+        }
+
+        BaseXPItem BXPI = enemyLootTableSO.DroppedXP();
+        if (BXPI)
+        {
+            GameObject test = Instantiate(BXPI.GetItemPrefab(), transform.position, new Quaternion());
+            test.GetComponent<NetworkObject>().Spawn();
+            Debug.Log("Dropped XP name : " + test.name);
+        }
         Debug.Log("Enemy is Dead.");
         Destroy(gameObject);
     }
@@ -56,8 +76,8 @@ public class EnemyScript : NetworkBehaviour
     {
         while (true)
         {
-            Target = EnemyBehaviourSO.ChoseTargettedPlayer(Players, gameObject);
-            yield return new WaitForSeconds(TimeBetweenRetarget);
+            _target = enemyBehaviourSO.ChoseTargettedPlayer(_players, gameObject);
+            yield return new WaitForSeconds(timeBetweenRetarget);
         }
     }
 }

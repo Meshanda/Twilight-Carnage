@@ -6,5 +6,4 @@ public abstract class GenericEnemyStatSO : ScriptableObject
 {
     public float MaxHealth;
     public float Movespeed;
-    public float XPValue;
 }

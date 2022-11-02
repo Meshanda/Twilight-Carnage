@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject EnemyToSpawn;
     [SerializeField] private float TimeBetweenSpawn;
-
+    [SerializeField] private GenericLootTableSO GLTSO;
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(10, 10, 300, 300));
@@ -21,8 +22,10 @@ public class EnemySpawner : MonoBehaviour
 
             StartSpawning();
 
+            DamageEnemy();
+            
+            ItemSpawnTest();
         }
-        DamageEnemy();
         GUILayout.EndArea();
     }
 
@@ -65,6 +68,49 @@ public class EnemySpawner : MonoBehaviour
                 Target.GetComponent<EnemyScript>().TakeDamage(10);
             }
         }
+    }
+
+    void ItemSpawnTest()
+    {
+        if (NetworkManager.Singleton.IsServer)
+        {
+            if (GUILayout.Button("Spawn Items"))
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    Death();
+                }
+            }
+        }
+    }
+    
+    void Death()
+    {
+        GenericItemSO GISO =  GLTSO.DroppedItem();
+        if (GISO)
+        {
+            GameObject test = Instantiate(GISO.GetItemPrefab(), GetRandomPositionOnPlane(), Quaternion.identity);
+            test.GetComponent<NetworkObject>().Spawn();
+            Debug.Log("Dropped item name : " + test.name);
+        }
+        else
+        {
+            Debug.Log("No item dropped");
+        }
+
+        BaseXPItem BXPI = GLTSO.DroppedXP();
+        if (BXPI)
+        {
+            GameObject test = Instantiate(BXPI.GetItemPrefab(), GetRandomPositionOnPlane(), Quaternion.identity);
+            test.GetComponent<NetworkObject>().Spawn();
+            Debug.Log("Dropped XP name : " + test.name);
+        }
+        Debug.Log("Enemy is Dead.");
+    }
+    
+    static Vector3 GetRandomPositionOnPlane()
+    {
+        return new Vector3(Random.Range(-10f, 10f), 1f, Random.Range(-10f, 10f));
     }
     IEnumerator SpawnEnemy()
     {
