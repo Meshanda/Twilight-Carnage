@@ -17,4 +17,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestSceneEnemy.unity
     guid: 9d4dbbbf42565ce499ac6df627451f61
+  - enabled: 1
+    path: Assets/Scenes/TestScenes/Franscene.unity
+    guid: dad18b08186de724fa12564706ddd8fd
+  - enabled: 1
+    path: Assets/Scenes/PowerUp.unity
+    guid: f650599605510524ca577c984f3f443f
+  - enabled: 1
+    path: Assets/Scenes/TestLionel.unity
+    guid: 4cbb2984e0ce12243a96a3d9ed027424
   m_configObjects: {}
