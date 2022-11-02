@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6006005844722574664}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,8 +130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a014d396dbe9e2449adcbdabb287a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyBehaviourSO: {fileID: 11400000, guid: 7854d61e69ae087488d2cce4a5d61439, type: 2}
-  EnemyStatSO: {fileID: 11400000, guid: 2ca13a8bf33e58244bb659e7d30ed499, type: 2}
+  enemyBehaviourSO: {fileID: 11400000, guid: 7854d61e69ae087488d2cce4a5d61439, type: 2}
+  enemyStatSO: {fileID: 11400000, guid: 2ca13a8bf33e58244bb659e7d30ed499, type: 2}
+  enemyLootTableSO: {fileID: 11400000, guid: 9b02d8fbe63389c488601c45d81d5559, type: 2}
+  timeBetweenRetarget: 0
 --- !u!114 &2472474379203660058
 MonoBehaviour:
   m_ObjectHideFlags: 0
