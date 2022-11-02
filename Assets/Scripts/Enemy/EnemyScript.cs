@@ -15,7 +15,7 @@ public class EnemyScript : NetworkBehaviour
     private NetworkVariable<float> _health = new NetworkVariable<float>();
     private GameObject[] _players;
     private GameObject _target;
-    private Transform _thisTransform;
+    
     private void Start()
     {
         _players = GameObject.FindGameObjectsWithTag("Player");
@@ -33,8 +33,8 @@ public class EnemyScript : NetworkBehaviour
     {
         if (_target)
         {
-            _thisTransform.LookAt(_target.transform);
-            _thisTransform.position += _thisTransform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
+            transform.LookAt(_target.transform);
+            transform.position += transform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
     }
 
