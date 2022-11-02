@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 34114853617139066, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 34114853617139071, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_RootOrder
@@ -204,11 +204,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 2073c1c5fb7fa9c4b8d7a56be51fcc40, type: 2}
     - target: {fileID: 8922389475980321193, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 3.72
       objectReference: {fileID: 0}
     - target: {fileID: 8922389475980321193, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 0.79
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
@@ -1690,6 +1690,9 @@ MonoBehaviour:
   - {fileID: 553840321}
   - {fileID: 1150986837}
   - {fileID: 250580028}
+  _skinLeftButton: {fileID: 1555742124}
+  _skinRightButton: {fileID: 1636766216}
+  _skinName: {fileID: 6464704405501152750}
 --- !u!4 &1181228292
 Transform:
   m_ObjectHideFlags: 0
@@ -1800,7 +1803,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 34114853617139066, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 34114853617139071, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_RootOrder
@@ -1860,11 +1863,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8922389475980321193, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 3.72
       objectReference: {fileID: 0}
     - target: {fileID: 8922389475980321193, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 0.79
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
@@ -2182,6 +2185,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7222766883591805855, guid: c5fd8aa4efbf5be4b92d6fe9d39b01d5, type: 3}
   m_PrefabInstance: {fileID: 1555742122}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1555742124 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7222766883591805854, guid: c5fd8aa4efbf5be4b92d6fe9d39b01d5, type: 3}
+  m_PrefabInstance: {fileID: 1555742122}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1600863160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2199,7 +2213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 34114853617139066, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 34114853617139071, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_RootOrder
@@ -2259,11 +2273,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8922389475980321193, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 3.72
       objectReference: {fileID: 0}
     - target: {fileID: 8922389475980321193, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 0.79
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
@@ -2300,7 +2314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7222766883591805840, guid: c5fd8aa4efbf5be4b92d6fe9d39b01d5, type: 3}
       propertyPath: m_Name
-      value: Button
+      value: RightArrowButton
       objectReference: {fileID: 0}
     - target: {fileID: 7222766883591805855, guid: c5fd8aa4efbf5be4b92d6fe9d39b01d5, type: 3}
       propertyPath: m_Pivot.x
@@ -2393,6 +2407,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7222766883591805855, guid: c5fd8aa4efbf5be4b92d6fe9d39b01d5, type: 3}
   m_PrefabInstance: {fileID: 1636766214}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1636766216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7222766883591805854, guid: c5fd8aa4efbf5be4b92d6fe9d39b01d5, type: 3}
+  m_PrefabInstance: {fileID: 1636766214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1652588039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2708,7 +2733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 34114853617139066, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 34114853617139071, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_RootOrder
@@ -2768,11 +2793,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8922389475980321193, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 3.72
       objectReference: {fileID: 0}
     - target: {fileID: 8922389475980321193, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 0.79
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f46fa5eb9a91574c998b6f32cd59229, type: 3}

@@ -12,6 +12,10 @@ public class LobbyPlayer : MonoBehaviour
     [SerializeField] private GlowColor _notReadyColor;
     [SerializeField] private GlowColor _readyColor;
 
+    [Space(10)] 
+    [Header("Skins")] 
+    [SerializeField] private List<GameObject> _skinsGo;
+
     private LobbyPlayerData _data;
     
     [System.Serializable]
@@ -31,6 +35,8 @@ public class LobbyPlayer : MonoBehaviour
         _data = data;
         _playerName.text = _data.Gamertag;
 
+        ChangeSkin(data.SkinIndex);
+        
         if (_data.IsReady)
         {
             if (_renderer != null)
@@ -47,5 +53,13 @@ public class LobbyPlayer : MonoBehaviour
         }
         
         gameObject.SetActive(true);
+    }
+
+    private void ChangeSkin(int skinIndex)
+    {
+        for (var i = 0; i < _skinsGo.Count; i++)
+        {
+            _skinsGo[i].SetActive(i == skinIndex);
+        }
     }
 }

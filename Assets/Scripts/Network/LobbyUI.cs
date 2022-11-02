@@ -28,10 +28,21 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private MapSelectionData _mapSelectionData;
     [SerializeField] private List<GameObject> _mapsGo;
     private int _currentMapIndex = 0;
+
+    [Space(10)] 
+    [Header("Skin Selection")] 
+    [SerializeField] private Button _skinLeftButton;
+    [SerializeField] private Button _skinRightButton;
+    [SerializeField] private TextMeshProUGUI _skinName;
+
+    // ToDo : Replace with SO
+    private const int NUMBER_OF_PLAYER_SKINS = 3;
     
     private void OnEnable()
     {
         _readyButton.onClick.AddListener(OnReadyPressed);
+        _skinLeftButton.onClick.AddListener(OnSkinLeftButtonClicked);
+        _skinRightButton.onClick.AddListener(OnSkinRightButtonClicked);
 
         if (GameLobbyManager.Instance.IsHost)
         {
@@ -45,16 +56,18 @@ public class LobbyUI : MonoBehaviour
 
         GameLobbyEvents.OnLobbyUpdated += OnLobbyUpdated;
     }
-
-   
+    
 
     private void OnDisable()
     {
         _readyButton.onClick.RemoveAllListeners();
+        _startButton.onClick.RemoveAllListeners();
+        
         _mapLeftButton.onClick.RemoveAllListeners();
         _mapRightButton.onClick.RemoveAllListeners();
-        _startButton.onClick.RemoveAllListeners();
-
+        
+        _skinLeftButton.onClick.RemoveAllListeners();
+        _skinRightButton.onClick.RemoveAllListeners();
         
         GameLobbyEvents.OnLobbyUpdated -= OnLobbyUpdated;
         GameLobbyEvents.OnLobbyReady -= OnLobbyReady;
@@ -73,6 +86,45 @@ public class LobbyUI : MonoBehaviour
         }
     }
     
+    private async void OnSkinRightButtonClicked()
+    {
+        var skinIndex = GameLobbyManager.Instance.GetLocalSkinIndex();
+        
+        if (skinIndex + 1 <= NUMBER_OF_PLAYER_SKINS - 1)
+        {
+            skinIndex++;
+        }
+        else
+        {
+            skinIndex = 0;
+        }
+        
+        UpdateSkin(skinIndex);
+        await GameLobbyManager.Instance.SetLocalSkinIndex(skinIndex);
+    }
+
+    private async void OnSkinLeftButtonClicked()
+    {
+        var skinIndex = GameLobbyManager.Instance.GetLocalSkinIndex();
+        
+        if (skinIndex - 1 >= 0)
+        {
+            skinIndex--;
+        }
+        else
+        {
+            skinIndex = NUMBER_OF_PLAYER_SKINS - 1;
+        }
+
+        UpdateSkin(skinIndex);
+        await GameLobbyManager.Instance.SetLocalSkinIndex(skinIndex);
+    }
+
+    private void UpdateSkin(int index)
+    {
+        _skinName.text = "Skin" + index + 1;
+    }
+
     private async void OnMapLeftButtonClicked()
     {
         if (_currentMapIndex - 1 >= 0)
