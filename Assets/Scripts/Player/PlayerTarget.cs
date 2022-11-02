@@ -64,7 +64,6 @@ public class PlayerTarget : NetworkBehaviour
         if (Physics.Raycast(mouseRay, out RaycastHit rayHit, float.PositiveInfinity, _terrainLayer))
         {
             _playerLookAt = rayHit.point - transform.position;
-            Debug.Log(rayHit.collider.gameObject.name);
         }
     }
     
