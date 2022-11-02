@@ -18,16 +18,12 @@ public class EnemyScript : NetworkBehaviour
     private Transform _thisTransform;
     private void Start()
     {
-<<<<<<< HEAD
         _thisTransform = transform;
         if (NetworkManager.Singleton.IsServer)
         {
             _health.Value = enemyStatSO.MaxHealth;   
         }
         //_players = GameObject.FindGameObjectsWithTag("Player");
-=======
-        //Players = GameObject.FindGameObjectsWithTag("Player");
->>>>>>> dev
         StartCoroutine(ChoseTarget());
     }
 
