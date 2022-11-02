@@ -28,14 +28,11 @@ namespace ScriptableObjects
     {
         [Tooltip("The chance to drop all item doesn't have to be equal to 1")] 
         [SerializeField] private LootTableItemInfo[] _itemLootTable;
-        //[SerializeField] private SerializedDictionary<>
-        //[SerializeField] private Dictionary<GenericItemSO, float> _itemLootTable;
         [Tooltip("The chance to drop all item have to be equal to 1")] 
         [SerializeField] private LooTableXPInfo[] _xpLootTable;
         public GenericItemSO DroppedItem()
         {
             float diceRoll = Random.Range(0f, 1);
-            Debug.Log("Dropped item roll : " + diceRoll);
             foreach (LootTableItemInfo itemInfo in _itemLootTable)
             {
                 if (itemInfo.DropRate >= diceRoll)
@@ -51,7 +48,6 @@ namespace ScriptableObjects
         public  BaseXPItem DroppedXP()
         {
             float diceRoll = Random.Range(0f, 1);
-            Debug.Log("Dropped xp roll : " + diceRoll);
             foreach (LooTableXPInfo xpInfo in _xpLootTable)
             {
                 if (xpInfo.DropRate >= diceRoll)
