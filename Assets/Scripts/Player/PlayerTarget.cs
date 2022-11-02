@@ -22,17 +22,11 @@ public class PlayerTarget : NetworkBehaviour
     private float _rotationVelocity;
 #endregion
 
-
-    private Camera _camera;
+    [SerializeField] private LayerMask _terrainLayer;
+    [SerializeField] private Camera _camera;
     private GameObject _spawnedObj;
 
-        
-
-    private void Awake()
-    {
-        if (Camera.main != null) _camera = Camera.main;
-    }
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -60,11 +54,14 @@ public class PlayerTarget : NetworkBehaviour
     
     protected void OnTargetMouse(InputValue value)
     {
+        if (!IsOwner)
+            return;
+        
         Vector2 mousePosition = value.Get<Vector2>();
 
         Ray mouseRay = _camera.ScreenPointToRay(mousePosition);
 
-        if (Physics.Raycast(mouseRay, out RaycastHit rayHit))
+        if (Physics.Raycast(mouseRay, out RaycastHit rayHit, float.PositiveInfinity, _terrainLayer))
         {
             _playerLookAt = rayHit.point - transform.position;
         }
@@ -72,6 +69,9 @@ public class PlayerTarget : NetworkBehaviour
     
     protected void OnTargetGP(InputValue value)
     {
+        if (!IsOwner)
+            return;
+        
         Vector2 gamePadLA = value.Get<Vector2>();
 
         _playerLookAt = new Vector3(gamePadLA.x, 0, gamePadLA.y);

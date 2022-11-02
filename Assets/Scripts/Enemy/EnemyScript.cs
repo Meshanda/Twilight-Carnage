@@ -15,10 +15,10 @@ public class EnemyScript : NetworkBehaviour
     private NetworkVariable<float> _health = new NetworkVariable<float>();
     private GameObject[] _players;
     private GameObject _target;
-    private Transform _thisTransform;
+    
     private void Start()
     {
-        //Players = GameObject.FindGameObjectsWithTag("Player");
+        _players = GameObject.FindGameObjectsWithTag("Player");
         if(NetworkManager.Singleton.IsServer)
          StartCoroutine(ChoseTarget());
     }
@@ -33,10 +33,9 @@ public class EnemyScript : NetworkBehaviour
     {
         if (_target)
         {
-            _thisTransform.LookAt(_target.transform);
-            _thisTransform.position += _thisTransform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
+            transform.LookAt(_target.transform);
+            transform.position += transform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
-        Debug.Log("Remaining Health : " + _health.Value);
     }
 
     public void TakeDamage(float hit)
@@ -53,23 +52,15 @@ public class EnemyScript : NetworkBehaviour
         GenericItemSO GISO =  enemyLootTableSO.DroppedItem();
         if (GISO)
         {
-            GameObject test = Instantiate(GISO.GetItemPrefab(), transform.position, new Quaternion());
-            test.GetComponent<NetworkObject>().Spawn();
-            Debug.Log("Dropped item name : " + test.name);
+            GameObject gameObject = Instantiate(GISO.GetItemPrefab(), transform.position, new Quaternion());
+            gameObject.GetComponent<NetworkObject>().Spawn();
         }
-        else
-        {
-            Debug.Log("No item dropped");
-        }
-
         BaseXPItem BXPI = enemyLootTableSO.DroppedXP();
         if (BXPI)
         {
-            GameObject test = Instantiate(BXPI.GetItemPrefab(), transform.position, new Quaternion());
-            test.GetComponent<NetworkObject>().Spawn();
-            Debug.Log("Dropped XP name : " + test.name);
+            GameObject gameObject = Instantiate(BXPI.GetItemPrefab(), transform.position, new Quaternion());
+            gameObject.GetComponent<NetworkObject>().Spawn();
         }
-        Debug.Log("Enemy is Dead.");
         Destroy(gameObject);
     }
 
