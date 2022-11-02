@@ -1,11 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "ScriptableObjects/Effect")]
-public class EffectSO : ScriptableObject
+public abstract class EffectSO<T> : ScriptableObject
 {
-    public int Damage = 0;
-    public int NbEnemyTouch = 0;
-    public float BulletSpeed = 0;
-    
-    public int NbShoot = 0;
+    public PlayerShootData.ShootEnum Type;
+    public T Value;
 }
