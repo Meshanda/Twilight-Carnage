@@ -54,10 +54,16 @@ namespace Network
             var playerData = LobbyManager.Instance.GetPlayersData();
             _lobbyPlayerDatas.Clear();
 
+            int numberOfPlayerReady = 0;
             foreach (var data in playerData)
             {
                 var lobbyPlayerData = new LobbyPlayerData();
                 lobbyPlayerData.Initialize(data);
+
+                if (lobbyPlayerData.IsReady)
+                {
+                    numberOfPlayerReady++;
+                }
 
                 if (lobbyPlayerData.Id == AuthenticationService.Instance.PlayerId)
                 {
@@ -71,6 +77,11 @@ namespace Network
             _lobbyData.Initialize(lobby.Data);
 
             GameLobbyEvents.OnLobbyUpdated?.Invoke();
+
+            if (numberOfPlayerReady == lobby.Players.Count)
+            {
+                GameLobbyEvents.OnLobbyReady?.Invoke();
+            }
         }
 
         public List<LobbyPlayerData> GetPlayers()
@@ -78,15 +89,15 @@ namespace Network
             return _lobbyPlayerDatas;
         }
 
-        public async Task<bool> SetPlayerReady(bool state)
+        public async Task<bool> SetPlayerReady()
         {
-            _localLobbyPlayerData.IsReady = state;
+            _localLobbyPlayerData.IsReady = !_localLobbyPlayerData.IsReady;
             return await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize());
         }
 
         public bool IsPlayerReady()
         {
-            return _localLobbyPlayerData.IsReady;
+            return _lobbyPlayerDatas != null && _localLobbyPlayerData.IsReady;
         }
 
         public int GetMapIndex()

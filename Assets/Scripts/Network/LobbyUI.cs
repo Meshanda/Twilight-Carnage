@@ -10,6 +10,10 @@ using UnityEngine.UI;
 public class LobbyUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _lobbyCodeText;
+
+    [Space(10)] 
+    [Header("Ready Button")] 
+    [SerializeField] private Button _startButton;
     
     [Space(10)]
     [Header("Ready Button")]
@@ -33,10 +37,14 @@ public class LobbyUI : MonoBehaviour
         {
             _mapLeftButton.onClick.AddListener(OnMapLeftButtonClicked);
             _mapRightButton.onClick.AddListener(OnMapRightButtonClicked);
+
+            GameLobbyEvents.OnLobbyReady += OnLobbyReady;
         }
 
         GameLobbyEvents.OnLobbyUpdated += OnLobbyUpdated;
     }
+
+   
 
     private void OnDisable()
     {
@@ -45,6 +53,8 @@ public class LobbyUI : MonoBehaviour
         _mapRightButton.onClick.RemoveAllListeners();
         
         GameLobbyEvents.OnLobbyUpdated -= OnLobbyUpdated;
+        GameLobbyEvents.OnLobbyReady -= OnLobbyReady;
+
     }
 
     private void Start()
@@ -91,9 +101,9 @@ public class LobbyUI : MonoBehaviour
     private async void OnReadyPressed()
     {
         var isReady = GameLobbyManager.Instance.IsPlayerReady();
-        _readyText.text = isReady ? "Not Ready" : "Ready";
-
-        await GameLobbyManager.Instance.SetPlayerReady(!isReady);
+        _readyText.text = !isReady ? "Not Ready" : "Ready";
+        
+        await GameLobbyManager.Instance.SetPlayerReady();
     }
 
     private void UpdateMap()
@@ -106,5 +116,10 @@ public class LobbyUI : MonoBehaviour
     {
         _currentMapIndex = GameLobbyManager.Instance.GetMapIndex();
         UpdateMap();
+    }
+    
+    private void OnLobbyReady()
+    {
+        _startButton.gameObject.SetActive(true);
     }
 }

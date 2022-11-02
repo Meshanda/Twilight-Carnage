@@ -1741,7 +1741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lobbyCodeText: {fileID: 1028554397}
   _readyButton: {fileID: 223505682}
-  _readyText: {fileID: 0}
+  _readyText: {fileID: 1231026259}
   _mapImage: {fileID: 1045550754}
   _mapLeftButton: {fileID: 705806601}
   _mapRightButton: {fileID: 349494907}
