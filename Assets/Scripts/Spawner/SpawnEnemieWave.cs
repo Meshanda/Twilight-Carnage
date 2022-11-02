@@ -10,12 +10,13 @@ public class SpawnEnemieWave : MonoBehaviour
     [SerializeField] private float _betweenObject;
     private List<GameObject> _toSpawn;
     
-    public void SpawnPool(int budget, List<GameObject> players) //add what gameobject to spawn with the current budget
+    public int  SpawnPool(int budget, List<GameObject> players) //add what gameobject to spawn with the current budget
     {
 
         _toSpawn = FillToSpawn(budget);
-       Spawn(players);
+        Spawn(players);
 
+        return _toSpawn.Count;
     }
 
     private List<GameObject> FillToSpawn(int budget) 
