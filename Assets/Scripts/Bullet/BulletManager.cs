@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class BulletManager : MonoBehaviour
+public class BulletManager : GenericSingleton<BulletManager>
 {
    private List<Bullet> _bullets = new List<Bullet>();
    

@@ -143,6 +143,74 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "BossControls",
+            "id": "d9afa0bd-7b28-4293-bb87-2eb965c2aeb1",
+            "actions": [
+                {
+                    "name": "Spawn",
+                    "type": "Button",
+                    "id": "b987c8b3-6e92-4f54-afa9-b30d81f7080a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityOne",
+                    "type": "Button",
+                    "id": "1b5f9f3d-cb9f-4396-bf85-b59f807dcb37",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityTwo",
+                    "type": "Button",
+                    "id": "5e5efcec-83ed-47f5-9376-4e94fdf647b6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fac69654-1988-4686-909f-5a233a1c1121",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Spawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1b7270e-c96c-4e07-b19c-52aba4d7a067",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AbilityOne",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b9936c52-3bad-4c5a-b504-077bc24088e2",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AbilityTwo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
