@@ -1,14 +1,17 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
 public class XpManager : NetworkBehaviour
 {
-    [SerializeField] private ScriptableObjects.Variables.FloatVariable _lvlSo, _xpSo;
+    [SerializeField] private ScriptableObjects.Variables.FloatVariable _lvlSo, _xpSo, _xpThreshSo;
     [SerializeField] private NetworkVariable<float> xp, lvl;
     [SerializeField] private NetworkVariable<float> _lvlThreshold;
-    [SerializeField] private bool _bLaunchedUpdate = false;
+    [SerializeField] float _refreshRate;
+    private float _time;
+
+     private bool _bLaunchedUpdate = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +22,18 @@ public class XpManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(lvl.Value > _lvlSo.value)
+        _time -= Time.deltaTime;
+        if (_time < 0)
+            _time = _refreshRate;
+        else
+            return;
+        if (NetworkManager.IsClient && !NetworkManager.Singleton.IsServer )
+        {
+            _xpSo.value += 5;
+        }
+        _xpThreshSo.value = _lvlThreshold.Value;
+
+        if (lvl.Value > _lvlSo.value)
             _lvlSo.value = lvl.Value;
         if (_xpSo.value > xp.Value) 
         {
@@ -33,7 +47,11 @@ public class XpManager : NetworkBehaviour
                 UpdateXpServerRPC(_xpSo.value - xp.Value);
             }
         }
-        if(NetworkManager.Singleton.IsServer && xp.Value > _lvlThreshold.Value) 
+
+        if (_xpSo.value < xp.Value)
+            _xpSo.value = xp.Value;
+
+        if (NetworkManager.Singleton.IsServer && xp.Value > _lvlThreshold.Value) 
         {
             xp.Value = xp.Value - _lvlThreshold.Value;
             lvlUpClientRpc(xp.Value);
