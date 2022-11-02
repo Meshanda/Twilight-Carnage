@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 namespace Network
 {
@@ -11,6 +15,10 @@ namespace Network
         private List<LobbyPlayerData> _lobbyPlayerDatas = new List<LobbyPlayerData>();
 
         private LobbyPlayerData _localLobbyPlayerData;
+        private LobbyData _lobbyData;
+        private const int MAX_NUMBER_OF_PLAYERS = 4;
+
+        public bool IsHost => _localLobbyPlayerData.Id == LobbyManager.Instance.GetHostId();
         
         private void OnEnable()
         {
@@ -24,10 +32,13 @@ namespace Network
 
         public async Task<bool> CreateLobby()
         {
-            var playerData = new LobbyPlayerData();
-            playerData.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer");
+            _localLobbyPlayerData = new LobbyPlayerData();
+            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer");
+            
+            _lobbyData = new LobbyData();
+            _lobbyData.Initialize(0);
 
-            return await LobbyManager.Instance.CreateLobby(4, true, playerData.Serialize());
+            return await LobbyManager.Instance.CreateLobby(MAX_NUMBER_OF_PLAYERS, true, _localLobbyPlayerData.Serialize(), _lobbyData.Serialize());
         }
 
         public string GetLobbyCode()
@@ -37,21 +48,27 @@ namespace Network
 
         public async Task<bool> JoinLobby(string lobbyCode)
         {
-            var playerData = new LobbyPlayerData();
-            playerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
+            _localLobbyPlayerData = new LobbyPlayerData();
+            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
 
-            return await LobbyManager.Instance.JoinLobby(lobbyCode, playerData.Serialize());
+            return await LobbyManager.Instance.JoinLobby(lobbyCode, _localLobbyPlayerData.Serialize());
         }
         
-        private void OnLobbyUpdated(Lobby lobby)
+        private async void OnLobbyUpdated(Lobby lobby)
         {
             var playerData = LobbyManager.Instance.GetPlayersData();
             _lobbyPlayerDatas.Clear();
 
+            int numberOfPlayerReady = 0;
             foreach (var data in playerData)
             {
                 var lobbyPlayerData = new LobbyPlayerData();
                 lobbyPlayerData.Initialize(data);
+
+                if (lobbyPlayerData.IsReady)
+                {
+                    numberOfPlayerReady++;
+                }
 
                 if (lobbyPlayerData.Id == AuthenticationService.Instance.PlayerId)
                 {
@@ -60,14 +77,94 @@ namespace Network
                 
                 _lobbyPlayerDatas.Add(lobbyPlayerData);
             }
-            
+
+            _lobbyData = new LobbyData();
+            _lobbyData.Initialize(lobby.Data);
+
             GameLobbyEvents.OnLobbyUpdated?.Invoke();
+
+            if (numberOfPlayerReady == lobby.Players.Count)
+            {
+                GameLobbyEvents.OnLobbyReady?.Invoke();
+            }
+
+            if (_lobbyData.RelayJoinCode != default)
+            {
+                await JoinRelayServer(_lobbyData.RelayJoinCode);
+                SceneManager.LoadSceneAsync(_lobbyData.SceneName);
+            }
         }
 
         public List<LobbyPlayerData> GetPlayers()
         {
             return _lobbyPlayerDatas;
         }
+
+        public async Task<bool> SetPlayerReady()
+        {
+            _localLobbyPlayerData.IsReady = !_localLobbyPlayerData.IsReady;
+            return await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize());
+        }
+
+        public bool IsPlayerReady()
+        {
+            return _lobbyPlayerDatas != null && _localLobbyPlayerData.IsReady;
+        }
+
+        public int GetMapIndex()
+        {
+            return _lobbyData.MapIndex;
+        }
+
+        public async Task<bool> SetSelectedMap(int currentMapIndex, string sceneName)
+        {
+            _lobbyData.MapIndex = currentMapIndex;
+            _lobbyData.SceneName = sceneName;
+
+            return await LobbyManager.Instance.UpdateLobbyData(_lobbyData.Serialize());
+        }
+
+        public async Task StartGame()
+        {
+            var relayJoinCode = await RelayManager.Instance.CreateRelay(MAX_NUMBER_OF_PLAYERS);
+
+            _lobbyData.RelayJoinCode = relayJoinCode;
+            await LobbyManager.Instance.UpdateLobbyData(_lobbyData.Serialize());
+
+            var allocationId = RelayManager.Instance.GetAllocationId();
+            var connectionData = RelayManager.Instance.GetConnectionData();
+
+            await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(), allocationId, connectionData);
+
+
+            // NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData =
+            //     new UnityTransport.ConnectionAddressData()
+            //     {
+            //         Address = RelayManager.Instance.Ip,
+            //         Port = ushort.Parse(RelayManager.Instance.Port.ToString())
+            //     };
+            //
+            // if (IsHost)
+            //     NetworkManager.Singleton.StartHost();
+            // else
+            //     NetworkManager.Singleton.StartClient();
+            
+
+            SceneManager.LoadSceneAsync(_lobbyData.SceneName);
+        }
+        
+        private async Task<bool> JoinRelayServer(string relayJoinCode)
+        {
+            await RelayManager.Instance.JoinRelay(relayJoinCode);
+            
+            var allocationId = RelayManager.Instance.GetAllocationId();
+            var connectionData = RelayManager.Instance.GetConnectionData();
+
+            await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(), allocationId, connectionData);
+            
+            return true;
+        }
+        
     }
 }
         

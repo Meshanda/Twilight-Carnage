@@ -18,8 +18,16 @@ public class SpawnEnemieSpawner : MonoBehaviour
     private int _playerIndexDebug = 0;
 
     private int _budget = 1;
-    // Start is called before the first frame update
 
+    [SerializeField] private ScriptableObjects.Variables.FloatVariable _nbrSpawnned;
+    [SerializeField] private float _maxSpawn;
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+
+        _nbrSpawnned.value = 0;
+    }
 
     // Update is called once per frame
     void Update()
@@ -32,12 +40,11 @@ public class SpawnEnemieSpawner : MonoBehaviour
         _time = _timeInit;
 
         Spawn();
-
     }
 
     private void Spawn() 
     {
-        if (_players == null)
+        if (_players == null || _nbrSpawnned.value > _maxSpawn)
             return;
         for(int j = 0; j < _players.Count; j++)
         {
@@ -64,7 +71,7 @@ public class SpawnEnemieSpawner : MonoBehaviour
             opposingVector = opposingVector.normalized;
 
             GameObject go = Instantiate(_enemySpawner, _players[playerIndex].transform.position + opposingVector * _distanceFromPlayer, Quaternion.identity);
-            go.GetComponent<SpawnEnemieWave>().SpawnPool(_budget, _players);
+            _nbrSpawnned.value += go.GetComponent<SpawnEnemieWave>().SpawnPool(_budget, _players);
             _opposingVectorDebug = opposingVector;
 
             _playerIndexDebug = playerIndex;

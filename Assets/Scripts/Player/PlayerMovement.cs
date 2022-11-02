@@ -33,11 +33,10 @@ public class PlayerMovement : NetworkBehaviour
 #endregion
 	
 	private CharacterController _controller;
-	private GameObject _mainCamera;
+	[SerializeField] private GameObject _mainCamera;
 
 	private void Awake()
 	{
-		if (Camera.main != null) _mainCamera = Camera.main.gameObject;
 		_controller = GetComponent<CharacterController>();
 	}
 
@@ -92,6 +91,8 @@ public class PlayerMovement : NetworkBehaviour
 
 	public void OnMove(InputValue value)
 	{
+		if (!IsOwner)
+			return;
 		Vector2 move = value.Get<Vector2>();
 		
 		_horizontalAxis = new Vector3(move.x, 0, move.y);

@@ -3,42 +3,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Serialization;
 
-public class EnemyScript : MonoBehaviour
+public class EnemyScript : NetworkBehaviour
 {
-    [SerializeField] private GenericEnemyBehaviourSO EnemyBehaviourSO;
-    [SerializeField] private GenericEnemyStatSO EnemyStatSO;
+    [SerializeField] private GenericEnemyBehaviourSO enemyBehaviourSO;
+    [SerializeField] private GenericEnemyStatSO enemyStatSO;
+    [SerializeField] private GenericLootTableSO enemyLootTableSO;
+    [SerializeField] private float timeBetweenRetarget;
 
-    private GameObject[] Players;
-    private GameObject Target;
-
+    private NetworkVariable<float> _health = new NetworkVariable<float>();
+    private GameObject[] _players;
+    private GameObject _target;
+    
     private void Start()
     {
-        //Players = GameObject.FindGameObjectsWithTag("Player");
-        StartCoroutine(ChoseTarget());
+        _players = GameObject.FindGameObjectsWithTag("Player");
+        if(NetworkManager.Singleton.IsServer)
+         StartCoroutine(ChoseTarget());
     }
 
     public void SetPlayer(GameObject[] players) 
     {
-        Players = players;
+        _players = players;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Target)
+        if (_target)
         {
-            transform.LookAt(Target.transform);
-            transform.position += transform.forward * Time.deltaTime * EnemyStatSO.BaseMovespeed;
+            transform.LookAt(_target.transform);
+            transform.position += transform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
+    }
+
+    public void TakeDamage(float hit)
+    {
+        _health.Value -= hit;
+        if (_health.Value <= 0)
+        {
+            Death();
+        }
+    }
+    
+    void Death()
+    {
+        GenericItemSO GISO =  enemyLootTableSO.DroppedItem();
+        if (GISO)
+        {
+            GameObject gameObject = Instantiate(GISO.GetItemPrefab(), transform.position, new Quaternion());
+            gameObject.GetComponent<NetworkObject>().Spawn();
+        }
+        BaseXPItem BXPI = enemyLootTableSO.DroppedXP();
+        if (BXPI)
+        {
+            GameObject gameObject = Instantiate(BXPI.GetItemPrefab(), transform.position, new Quaternion());
+            gameObject.GetComponent<NetworkObject>().Spawn();
+        }
+        Destroy(gameObject);
     }
 
     IEnumerator ChoseTarget()
     {
         while (true)
         {
-            Target = EnemyBehaviourSO.ChoseTargettedPlayer(Players, gameObject);
-            yield return new WaitForSeconds(2f);
+            _target = enemyBehaviourSO.ChoseTargettedPlayer(_players, gameObject);
+            yield return new WaitForSeconds(timeBetweenRetarget);
         }
     }
 }
