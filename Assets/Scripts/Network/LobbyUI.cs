@@ -37,7 +37,8 @@ public class LobbyUI : MonoBehaviour
         {
             _mapLeftButton.onClick.AddListener(OnMapLeftButtonClicked);
             _mapRightButton.onClick.AddListener(OnMapRightButtonClicked);
-
+            _startButton.onClick.AddListener(OnStartButtonClicked);
+            
             GameLobbyEvents.OnLobbyReady += OnLobbyReady;
         }
 
@@ -51,6 +52,8 @@ public class LobbyUI : MonoBehaviour
         _readyButton.onClick.RemoveAllListeners();
         _mapLeftButton.onClick.RemoveAllListeners();
         _mapRightButton.onClick.RemoveAllListeners();
+        _startButton.onClick.RemoveAllListeners();
+
         
         GameLobbyEvents.OnLobbyUpdated -= OnLobbyUpdated;
         GameLobbyEvents.OnLobbyReady -= OnLobbyReady;
@@ -80,8 +83,7 @@ public class LobbyUI : MonoBehaviour
         }
 
         UpdateMap();
-        GameLobbyManager.Instance.SetSelectedMap(_currentMapIndex);
-
+        await GameLobbyManager.Instance.SetSelectedMap(_currentMapIndex, _mapSelectionData.Maps[_currentMapIndex].SceneName);
     }
 
     private async void OnMapRightButtonClicked()
@@ -96,7 +98,7 @@ public class LobbyUI : MonoBehaviour
         }
 
         UpdateMap();
-        GameLobbyManager.Instance.SetSelectedMap(_currentMapIndex);
+        await GameLobbyManager.Instance.SetSelectedMap(_currentMapIndex, _mapSelectionData.Maps[_currentMapIndex].SceneName);
     }
     private async void OnReadyPressed()
     {
@@ -121,5 +123,11 @@ public class LobbyUI : MonoBehaviour
     private void OnLobbyReady()
     {
         _startButton.gameObject.SetActive(true);
+    }
+
+    private async void OnStartButtonClicked()
+    {
+        await GameLobbyManager.Instance.SetSelectedMap(_currentMapIndex, _mapSelectionData.Maps[_currentMapIndex].SceneName);
+        await GameLobbyManager.Instance.StartGame();
     }
 }

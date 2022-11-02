@@ -7,11 +7,24 @@ using UnityEngine;
 public class LobbyData 
 {
     private int _mapIndex;
+    private string _relayJoinJoinCode;
+    private string _sceneName;
 
     public int MapIndex
     {
         get => _mapIndex;
         set => _mapIndex = value;
+    }
+
+    public string RelayJoinCode
+    {
+        get => _relayJoinJoinCode; 
+        set => _relayJoinJoinCode = value;
+    }
+    public string SceneName
+    {
+        get => _sceneName; 
+        set => _sceneName = value;
     }
 
     public void Initialize(int mapIndex)
@@ -30,13 +43,23 @@ public class LobbyData
         {
             _mapIndex = Int32.Parse(lobbyData["MapIndex"].Value);
         } 
+        if (lobbyData.ContainsKey("RelayJoinCode"))
+        {
+            _relayJoinJoinCode = lobbyData["RelayJoinCode"].Value;
+        } 
+        if (lobbyData.ContainsKey("SceneName"))
+        {
+            _sceneName = lobbyData["SceneName"].Value;
+        } 
     }
 
     public Dictionary<string, string> Serialize()
     {
         return new Dictionary<string, string>()
         {
-            {"MapIndex", _mapIndex.ToString()}
+            {"MapIndex", _mapIndex.ToString()},
+            {"RelayJoinCode", _relayJoinJoinCode},
+            {"SceneName", _sceneName}
         };
     }
 }

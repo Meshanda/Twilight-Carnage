@@ -43,7 +43,7 @@ public class LobbyManager : GenericSingleton<LobbyManager>
         Debug.Log("Lobby successfuly create with id: " + _lobby.Id);
 
         _heartbeatCoroutine = StartCoroutine(HeartbeatLobbyCoroutine(_lobby.Id, 6f));
-        _refreshCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
+        _refreshCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1.1f));
         
         return true;
     }
@@ -143,13 +143,14 @@ public class LobbyManager : GenericSingleton<LobbyManager>
         return data;
     }
 
-    public async Task<bool> UpdatePlayerData(string playerId, Dictionary<string, string> data)
+    public async Task<bool> UpdatePlayerData(string playerId, Dictionary<string, string> data, string allocationId = default, string connectionData = default)
     {
         var playerData = SerializePlayerData(data);
-
         var options = new UpdatePlayerOptions()
         {
-            Data = playerData
+            Data = playerData,
+            AllocationId = allocationId,
+            ConnectionInfo = connectionData
         };
 
         try

@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 namespace Network
 {
@@ -12,6 +16,7 @@ namespace Network
 
         private LobbyPlayerData _localLobbyPlayerData;
         private LobbyData _lobbyData;
+        private const int MAX_NUMBER_OF_PLAYERS = 4;
 
         public bool IsHost => _localLobbyPlayerData.Id == LobbyManager.Instance.GetHostId();
         
@@ -33,7 +38,7 @@ namespace Network
             _lobbyData = new LobbyData();
             _lobbyData.Initialize(0);
 
-            return await LobbyManager.Instance.CreateLobby(4, true, _localLobbyPlayerData.Serialize(), _lobbyData.Serialize());
+            return await LobbyManager.Instance.CreateLobby(MAX_NUMBER_OF_PLAYERS, true, _localLobbyPlayerData.Serialize(), _lobbyData.Serialize());
         }
 
         public string GetLobbyCode()
@@ -49,7 +54,7 @@ namespace Network
             return await LobbyManager.Instance.JoinLobby(lobbyCode, _localLobbyPlayerData.Serialize());
         }
         
-        private void OnLobbyUpdated(Lobby lobby)
+        private async void OnLobbyUpdated(Lobby lobby)
         {
             var playerData = LobbyManager.Instance.GetPlayersData();
             _lobbyPlayerDatas.Clear();
@@ -82,6 +87,12 @@ namespace Network
             {
                 GameLobbyEvents.OnLobbyReady?.Invoke();
             }
+
+            if (_lobbyData.RelayJoinCode != default)
+            {
+                await JoinRelayServer(_lobbyData.RelayJoinCode);
+                SceneManager.LoadSceneAsync(_lobbyData.SceneName);
+            }
         }
 
         public List<LobbyPlayerData> GetPlayers()
@@ -105,12 +116,55 @@ namespace Network
             return _lobbyData.MapIndex;
         }
 
-        public async Task<bool> SetSelectedMap(int currentMapIndex)
+        public async Task<bool> SetSelectedMap(int currentMapIndex, string sceneName)
         {
             _lobbyData.MapIndex = currentMapIndex;
+            _lobbyData.SceneName = sceneName;
 
             return await LobbyManager.Instance.UpdateLobbyData(_lobbyData.Serialize());
         }
+
+        public async Task StartGame()
+        {
+            var relayJoinCode = await RelayManager.Instance.CreateRelay(MAX_NUMBER_OF_PLAYERS);
+
+            _lobbyData.RelayJoinCode = relayJoinCode;
+            await LobbyManager.Instance.UpdateLobbyData(_lobbyData.Serialize());
+
+            var allocationId = RelayManager.Instance.GetAllocationId();
+            var connectionData = RelayManager.Instance.GetConnectionData();
+
+            await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(), allocationId, connectionData);
+
+
+            // NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData =
+            //     new UnityTransport.ConnectionAddressData()
+            //     {
+            //         Address = RelayManager.Instance.Ip,
+            //         Port = ushort.Parse(RelayManager.Instance.Port.ToString())
+            //     };
+            //
+            // if (IsHost)
+            //     NetworkManager.Singleton.StartHost();
+            // else
+            //     NetworkManager.Singleton.StartClient();
+            
+
+            SceneManager.LoadSceneAsync(_lobbyData.SceneName);
+        }
+        
+        private async Task<bool> JoinRelayServer(string relayJoinCode)
+        {
+            await RelayManager.Instance.JoinRelay(relayJoinCode);
+            
+            var allocationId = RelayManager.Instance.GetAllocationId();
+            var connectionData = RelayManager.Instance.GetConnectionData();
+
+            await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(), allocationId, connectionData);
+            
+            return true;
+        }
+        
     }
 }
         
