@@ -40,6 +40,7 @@ public class LobbyUI : MonoBehaviour
             _startButton.onClick.AddListener(OnStartButtonClicked);
             
             GameLobbyEvents.OnLobbyReady += OnLobbyReady;
+            GameLobbyEvents.OnLobbyUnReady += OnLobbyUnReady;
         }
 
         GameLobbyEvents.OnLobbyUpdated += OnLobbyUpdated;
@@ -57,6 +58,7 @@ public class LobbyUI : MonoBehaviour
         
         GameLobbyEvents.OnLobbyUpdated -= OnLobbyUpdated;
         GameLobbyEvents.OnLobbyReady -= OnLobbyReady;
+        GameLobbyEvents.OnLobbyUnReady -= OnLobbyUnReady;
 
     }
 
@@ -127,6 +129,11 @@ public class LobbyUI : MonoBehaviour
     private void OnLobbyReady()
     {
         _startButton.gameObject.SetActive(true);
+    }
+
+    private void OnLobbyUnReady()
+    {
+        _startButton.gameObject.SetActive(false);
     }
 
     private async void OnStartButtonClicked()

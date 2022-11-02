@@ -87,6 +87,10 @@ namespace Network
             {
                 GameLobbyEvents.OnLobbyReady?.Invoke();
             }
+            else
+            {
+                GameLobbyEvents.OnLobbyUnReady?.Invoke();
+            }
 
             if (_lobbyData.RelayJoinCode != default)
             {
