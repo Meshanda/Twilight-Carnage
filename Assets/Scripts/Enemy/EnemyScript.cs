@@ -15,7 +15,8 @@ public class EnemyScript : MonoBehaviour
     private void Start()
     {
         //Players = GameObject.FindGameObjectsWithTag("Player");
-        StartCoroutine(ChoseTarget());
+        if(NetworkManager.Singleton.IsServer)
+         StartCoroutine(ChoseTarget());
     }
 
     public void SetPlayer(GameObject[] players) 

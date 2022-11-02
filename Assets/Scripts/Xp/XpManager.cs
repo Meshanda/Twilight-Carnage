@@ -7,13 +7,13 @@ public class XpManager : NetworkBehaviour
 {
     [SerializeField] private ScriptableObjects.Variables.FloatVariable _lvlSo, _xpSo;
     [SerializeField] private NetworkVariable<float> xp, lvl;
-    [SerializeField] private float _lvlThreshold;
+    [SerializeField] private NetworkVariable<float> _lvlThreshold;
+    [SerializeField] private bool _bLaunchedUpdate = false;
     // Start is called before the first frame update
     void Start()
     {
         _lvlSo.value = 0;
         _xpSo.value = 0;
-
     }
 
     // Update is called once per frame
@@ -27,14 +27,15 @@ public class XpManager : NetworkBehaviour
             {
                 xp.Value = _xpSo.value;
             }
-            else 
+            else if(!_bLaunchedUpdate)
             {
+                _bLaunchedUpdate = true;
                 UpdateXpServerRPC(_xpSo.value - xp.Value);
             }
         }
-        if(NetworkManager.Singleton.IsServer && xp.Value > _lvlThreshold) 
+        if(NetworkManager.Singleton.IsServer && xp.Value > _lvlThreshold.Value) 
         {
-            xp.Value = xp.Value - _lvlThreshold;
+            xp.Value = xp.Value - _lvlThreshold.Value;
             lvlUpClientRpc(xp.Value);
             lvl.Value++;
             SetThreshold();
@@ -46,17 +47,26 @@ public class XpManager : NetworkBehaviour
 
     private void SetThreshold() 
     {
-        _lvlThreshold *= 1.5f;
+        _lvlThreshold.Value *= 1.5f;
     }
     [ClientRpc]
     private void lvlUpClientRpc(float xp)
     {
         _xpSo.value = xp;
     }
+
+    [ClientRpc]
+    private void XpUpdateClientRpc(float xp)
+    {
+        _xpSo.value = xp;
+        _bLaunchedUpdate = false;
+    }
+
     [ServerRpc(RequireOwnership = false)]
     void UpdateXpServerRPC(float addXp) 
     {
         xp.Value += addXp;
         _xpSo.value += addXp;
+        XpUpdateClientRpc(_xpSo.value);
     }
 }
