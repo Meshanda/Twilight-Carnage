@@ -1,22 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerHpSetter : MonoBehaviour
+public class PlayerHpSetter : NetworkBehaviour
 {
-    [SerializeField] private ScriptableObjects.Variables.FloatVariable _hp;
+    [SerializeField] private NetworkVariable<float> _hp;
     [SerializeField] private float _maxHp;  
 
     // Start is called before the first frame update
     void Start()
     {
-        _hp.value = _maxHp;
+        _hp.Value = _maxHp;
     }
 
 
     public void TakeDamage( float hp) 
     {
-        Debug.Log(hp + "" + _hp.value);
-        _hp.value -= hp;
+        if (NetworkManager.Singleton.IsServer)
+        {
+            _hp.Value -= hp;
+            return;
+        }
+
+        UpdateServerRPC(hp);
+    }
+
+    [ServerRpc(RequireOwnership = true)]
+    void UpdateServerRPC(float hp) 
+    {
+        _hp.Value -= hp;
     }
 }

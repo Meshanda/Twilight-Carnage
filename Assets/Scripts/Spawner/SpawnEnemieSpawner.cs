@@ -49,7 +49,7 @@ public class SpawnEnemieSpawner : MonoBehaviour
 
     private void Spawn()
     {
-        if (_players == null|| _players.GetGos().Count <= 1 || _nbrSpawnned.value > _maxSpawn)
+        if (_players == null|| _players.GetGos().Count <= 0 || _nbrSpawnned.value > _maxSpawn)
         {
             return;
         }

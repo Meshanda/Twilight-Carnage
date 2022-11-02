@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95eb3be04f96d644882b1bdfa3b51aca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _players: {fileID: 0}
+  _players: {fileID: 11400000, guid: f39047d67e34f834faf299c61cb345b6, type: 2}
   _timeBetweenTick: 2
   _damage: 5
 --- !u!1001 &1882102110193369132
