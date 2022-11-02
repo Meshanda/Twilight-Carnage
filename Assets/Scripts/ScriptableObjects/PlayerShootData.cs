@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,7 +19,12 @@ public class PlayerShootData : ScriptableObject
 
     // Shoot data
     public int NbShoot { get => _nbShoot; private set => _nbShoot = value; }
-    
+
+    public enum ShootEnum
+    {
+        Damage, NbEnemyTouch, BulletSpeed, NbShoot
+    }
+
     public struct ShootRPC : INetworkSerializable
     {
         public int Damage;
@@ -36,13 +42,36 @@ public class PlayerShootData : ScriptableObject
         }
     }
     
-    public void ApplyEffect(EffectSO effect)
+    public void ApplyEffect(IntEffect effect)
     {
-        Damage += effect.Damage;
-        NbEnemyTouch += effect.NbEnemyTouch;
-        BulletSpeed += effect.BulletSpeed;
+        switch (effect.Type)
+        {
+            case ShootEnum.Damage:
+                Damage += effect.Value;
+                break;
+            case ShootEnum.NbEnemyTouch:
+                NbEnemyTouch += effect.Value;
+                break;
+            case ShootEnum.NbShoot:
+                NbShoot += effect.Value;
+                break;
+            default:
+                Debug.Log("Type (int) : " + effect.Type + " is not recognize");
+                break;
+        }
+    }
     
-        NbShoot += effect.NbShoot;
+    public void ApplyEffect(FloatEffect effect)
+    {
+        switch (effect.Type)
+        {
+            case ShootEnum.BulletSpeed:
+                BulletSpeed += effect.Value;
+                break;
+            default:
+                Debug.Log("Type (float) : " + effect.Type + " is not recognize");
+                break;
+        }
     }
 
     public ShootRPC ToStruct()

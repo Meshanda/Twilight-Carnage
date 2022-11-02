@@ -4,11 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerNetworkData))]
 public class PlayerNetworkEffectChange : NetworkBehaviour
 {
-    [SerializeField] private EffectSO _nbShootUp;
-    [SerializeField] private EffectSO _nbShootDown;
+    [SerializeField] private IntEffect _nbShootUp;
+    [SerializeField] private IntEffect _nbShootDown;
     
-    [SerializeField] private EffectSO _bulletSpeedUp;
-    [SerializeField] private EffectSO _bulletSpeedDown;
+    [SerializeField] private FloatEffect _bulletSpeedUp;
+    [SerializeField] private FloatEffect _bulletSpeedDown;
 
     private PlayerShootData _playerShootData;
     
