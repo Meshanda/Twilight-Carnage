@@ -11,23 +11,6 @@ public class PlayerNetworkShoot : NetworkBehaviour
 
     private float _bulletXOffset = 0.3f;
 
-    private struct ShootRPC : INetworkSerializable
-    {
-        public int Damage;
-        public int NbEnemyTouch;
-        public float Speed;
-        public int NbShoot;
-        
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            serializer.SerializeValue(ref Damage);
-            serializer.SerializeValue(ref NbEnemyTouch);
-            serializer.SerializeValue(ref Speed);
-            
-            serializer.SerializeValue(ref NbShoot);
-        }
-    }
-
     private void Start()
     {
         _bulletManager = GameObject.Find("BulletManager").GetComponent<BulletManager>();
@@ -40,18 +23,12 @@ public class PlayerNetworkShoot : NetworkBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ShootServerRpc(new ShootRPC()
-                        {
-                            Damage = _playerShootData.Damage, 
-                            Speed = _playerShootData.BulletSpeed, 
-                            NbEnemyTouch = _playerShootData.NbEnemyTouch, 
-                            NbShoot = _playerShootData.NbShoot
-                        });
+            ShootServerRpc(_playerShootData.ToStruct());
         }
     }
     
     [ServerRpc]
-    private void ShootServerRpc(ShootRPC shootData)
+    private void ShootServerRpc(PlayerShootData.ShootRPC shootData)
     {
         float startPosX = transform.position.x;
        

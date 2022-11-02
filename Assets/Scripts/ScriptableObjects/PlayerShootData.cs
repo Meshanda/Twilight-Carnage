@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/PlayerShootData")]
@@ -18,6 +19,23 @@ public class PlayerShootData : ScriptableObject
     // Shoot data
     public int NbShoot { get => _nbShoot; private set => _nbShoot = value; }
     
+    public struct ShootRPC : INetworkSerializable
+    {
+        public int Damage;
+        public int NbEnemyTouch;
+        public float Speed;
+        public int NbShoot;
+        
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref Damage);
+            serializer.SerializeValue(ref NbEnemyTouch);
+            serializer.SerializeValue(ref Speed);
+            
+            serializer.SerializeValue(ref NbShoot);
+        }
+    }
+    
     public void ApplyEffect(EffectSO effect)
     {
         Damage += effect.Damage;
@@ -25,5 +43,16 @@ public class PlayerShootData : ScriptableObject
         BulletSpeed += effect.BulletSpeed;
     
         NbShoot += effect.NbShoot;
+    }
+
+    public ShootRPC ToStruct()
+    {
+        return new ShootRPC()
+        {
+            Damage = Damage,
+            Speed = BulletSpeed,
+            NbEnemyTouch = NbEnemyTouch,
+            NbShoot = NbShoot
+        };
     }
 }
