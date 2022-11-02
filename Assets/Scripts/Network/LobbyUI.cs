@@ -62,7 +62,7 @@ public class LobbyUI : MonoBehaviour
 
     private void Start()
     {
-        _lobbyCodeText.text = "Lobby code: " + GameLobbyManager.Instance.GetLobbyCode();
+        _lobbyCodeText.text = GameLobbyManager.Instance.GetLobbyCode();
 
         if (!GameLobbyManager.Instance.IsHost)
         {
