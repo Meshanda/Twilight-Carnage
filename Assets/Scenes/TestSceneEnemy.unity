@@ -193,6 +193,21 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 1842001814111822, guid: 241df458ac096470fbc5985302fd9709, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 1391868987743216, guid: db74795c995e14120867d17d28adeead, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 1979160698067578, guid: 3a6cd70afe3994b029620c71204033a4, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -234,6 +249,7 @@ GameObject:
   - component: {fileID: 616366065}
   - component: {fileID: 616366064}
   - component: {fileID: 616366063}
+  - component: {fileID: 616366066}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -299,14 +315,47 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616366062}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.00053983997, y: 0.9785057, z: -0.2062034, w: -0.0025617254}
+  m_LocalPosition: {x: 5.61, y: 12.81, z: 35.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 23.8, y: 180.3, z: 0}
+--- !u!114 &616366066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616366062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &1627677490
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyToSpawn: {fileID: 2472474379203660037, guid: 9ac35d46e0ec9e94aad875e1b1faf687, type: 3}
   TimeBetweenSpawn: 3
+  GLTSO: {fileID: 11400000, guid: 9b02d8fbe63389c488601c45d81d5559, type: 2}
 --- !u!4 &1823519909
 Transform:
   m_ObjectHideFlags: 0
