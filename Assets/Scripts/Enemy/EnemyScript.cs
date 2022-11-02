@@ -4,21 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class EnemyScript : MonoBehaviour
+public class EnemyScript : NetworkBehaviour
 {
     [SerializeField] private GenericEnemyBehaviourSO EnemyBehaviourSO;
     [SerializeField] private GenericEnemyStatSO EnemyStatSO;
     [SerializeField] private float TimeBetweenRetarget;
 
-    private float Health;
+    private NetworkVariable<float> Health = new NetworkVariable<float>();
     private GameObject[] Players;
     private GameObject Target;
-
+    private Transform thisTransform;
     private void Start()
     {
+        thisTransform = transform;
+        if (NetworkManager.Singleton.IsServer)
+        {
+            Health.Value = EnemyStatSO.MaxHealth;   
+        }
         Players = GameObject.FindGameObjectsWithTag("Player");
         StartCoroutine(ChoseTarget());
-        Health = EnemyStatSO.MaxHealth;
     }
 
     // Update is called once per frame
@@ -26,16 +30,16 @@ public class EnemyScript : MonoBehaviour
     {
         if (Target)
         {
-            transform.LookAt(Target.transform);
-            transform.position += transform.forward * Time.deltaTime * EnemyStatSO.Movespeed;
+            thisTransform.LookAt(Target.transform);
+            thisTransform.position += thisTransform.forward * (EnemyStatSO.Movespeed * Time.deltaTime);
         }
-        Debug.Log("Remaining Health : " + Health);
+        Debug.Log("Remaining Health : " + Health.Value);
     }
 
     public void TakeDamage(float Hit)
     {
-        Health -= Hit;
-        if (Health <= 0)
+        Health.Value -= Hit;
+        if (Health.Value <= 0)
         {
             Death();
         }

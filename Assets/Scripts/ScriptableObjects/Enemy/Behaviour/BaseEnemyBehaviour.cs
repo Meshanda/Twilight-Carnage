@@ -13,7 +13,7 @@ namespace ScriptableObjects
             int smallestDistanceIndex = 0;
             for (int i = 0; i < Players.Length; i++)
             {
-                if (currentSmallestDistance < Vector3.Distance(Enemy.transform.position, Players[i].transform.position))
+                if (currentSmallestDistance  > Vector3.Distance(Enemy.transform.position, Players[i].transform.position))
                 {
                     currentSmallestDistance = Vector3.Distance(Enemy.transform.position, Players[i].transform.position);
                     smallestDistanceIndex = i;
