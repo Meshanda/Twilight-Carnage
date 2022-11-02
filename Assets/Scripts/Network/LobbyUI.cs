@@ -22,11 +22,11 @@ public class LobbyUI : MonoBehaviour
     
     [Space(10)]
     [Header("Map Selection")]
-    [SerializeField] private Image _mapImage;
     [SerializeField] private Button _mapLeftButton;
     [SerializeField] private Button _mapRightButton;
     [SerializeField] private TextMeshProUGUI _mapName;
     [SerializeField] private MapSelectionData _mapSelectionData;
+    [SerializeField] private List<GameObject> _mapsGo;
     private int _currentMapIndex = 0;
     
     private void OnEnable()
@@ -110,8 +110,12 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateMap()
     {
-        _mapImage.color = _mapSelectionData.Maps[_currentMapIndex].MapThumbnail;
         _mapName.text = _mapSelectionData.Maps[_currentMapIndex].MapName;
+
+        for (var i = 0; i < _mapsGo.Count; i++)
+        {
+            _mapsGo[i].SetActive(i == _currentMapIndex);
+        }
     }
     
     private void OnLobbyUpdated()
