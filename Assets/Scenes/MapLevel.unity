@@ -6952,6 +6952,11 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 2472474379203660037, guid: 9ac35d46e0ec9e94aad875e1b1faf687, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -23562,6 +23567,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1159361136}
+  - component: {fileID: 1159361137}
   - component: {fileID: 1159361135}
   m_Layer: 0
   m_Name: GameObject
@@ -23604,6 +23610,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1159361137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159361134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e00218ec4a68324ead9b07bb8f62a8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _players: {fileID: 11400000, guid: f39047d67e34f834faf299c61cb345b6, type: 2}
 --- !u!1001 &1160679420
 PrefabInstance:
   m_ObjectHideFlags: 0

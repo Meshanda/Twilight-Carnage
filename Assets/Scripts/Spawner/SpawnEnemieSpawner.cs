@@ -31,7 +31,7 @@ public class SpawnEnemieSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_players == null || _players.GetGos().Count == 0)
+        if (_players == null || _players.GetGos().Count == 0 ||  !NetworkManager.Singleton.IsServer)
         {
 
             return;
@@ -49,13 +49,12 @@ public class SpawnEnemieSpawner : MonoBehaviour
 
     private void Spawn()
     {
-        if (_players == null|| _players.GetGos().Count == 0 || _nbrSpawnned.value > _maxSpawn)
+        if (_players == null|| _players.GetGos().Count <= 1 || _nbrSpawnned.value > _maxSpawn)
         {
             return;
         }
         GameObject[] players = _players.GetGos().ToArray();
 
-        Debug.Log(players[0].name);
         for (int j = 0; j < players.Length; j++)
         {
             int playerIndex = j;

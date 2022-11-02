@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerListAdder : MonoBehaviour
+public class PlayerListReset : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private GameObjectListVariable _players;
     void Start()
     {
-        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer)
+        if (!NetworkManager.Singleton.IsServer)
             return;
-        _players.AddGameObject(gameObject);
+        _players.SetGos(new List<GameObject>());
     }
 }
