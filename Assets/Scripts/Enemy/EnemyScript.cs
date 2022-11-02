@@ -33,8 +33,9 @@ public class EnemyScript : NetworkBehaviour
     {
         if (_target)
         {
-            _thisTransform.LookAt(_target.transform);
-            _thisTransform.position += _thisTransform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
+            Debug.Log(_thisTransform == null);
+            transform.LookAt(_target.transform);
+            transform.position += transform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
         Debug.Log("Remaining Health : " + _health.Value);
     }
