@@ -105,6 +105,7 @@ MonoBehaviour:
   enemyStatSO: {fileID: 11400000, guid: 2ca13a8bf33e58244bb659e7d30ed499, type: 2}
   enemyLootTableSO: {fileID: 11400000, guid: 9b02d8fbe63389c488601c45d81d5559, type: 2}
   timeBetweenRetarget: 3
+  _players: {fileID: 11400000, guid: f39047d67e34f834faf299c61cb345b6, type: 2}
 --- !u!114 &9203197046306085165
 MonoBehaviour:
   m_ObjectHideFlags: 0

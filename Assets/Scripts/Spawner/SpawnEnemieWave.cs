@@ -54,7 +54,6 @@ public class SpawnEnemieWave : MonoBehaviour
             GameObject go = Instantiate(_toSpawn[i], transform.position + offSet, transform.rotation, transform);
             go.GetComponent<NetworkObject>().Spawn();
 
-            go.GetComponent<EnemyScript>().SetPlayer(players.ToArray());
 
         }
     }

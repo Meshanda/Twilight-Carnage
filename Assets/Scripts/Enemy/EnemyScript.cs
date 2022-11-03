@@ -10,27 +10,20 @@ public class EnemyScript : NetworkBehaviour
     [SerializeField] private GenericEnemyBehaviourSO enemyBehaviourSO;
     [SerializeField] private GenericEnemyStatSO enemyStatSO;
     [SerializeField] private GenericLootTableSO enemyLootTableSO;
-    [SerializeField] private float timeBetweenRetarget;
+    [SerializeField] private float timeBetweenRetarget; 
+    [SerializeField] private GameObjectListVariable _players;
 
     private NetworkVariable<float> _health = new NetworkVariable<float>();
-    private GameObject[] _players;
     private GameObject _target;
     
     private void Start()
     {
-        
-        _players = GameObject.FindGameObjectsWithTag("Player");
         if (NetworkManager.Singleton.IsServer)
         {
             StartCoroutine(ChoseTarget());
             _health.Value = enemyStatSO.MaxHealth;
         }
          
-    }
-
-    public void SetPlayer(GameObject[] players) 
-    {
-        _players = players;
     }
 
     // Update is called once per frame
@@ -94,7 +87,7 @@ public class EnemyScript : NetworkBehaviour
     {
         while (true)
         {
-            _target = enemyBehaviourSO.ChoseTargettedPlayer(_players, gameObject);
+            _target = enemyBehaviourSO.ChoseTargettedPlayer(_players.gos.ToArray(), gameObject);
             yield return new WaitForSeconds(timeBetweenRetarget);
         }
     }
