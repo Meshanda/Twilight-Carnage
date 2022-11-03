@@ -10,6 +10,7 @@ using Unity.Netcode.Transports.UTP;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RelayManager : GenericSingleton<RelayManager>
 {
@@ -65,6 +66,7 @@ public class RelayManager : GenericSingleton<RelayManager>
             allocation.ConnectionData);
             
         NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.SceneManager.LoadScene("MapLevel", LoadSceneMode.Single);
         
         return _joinCode;
     }
