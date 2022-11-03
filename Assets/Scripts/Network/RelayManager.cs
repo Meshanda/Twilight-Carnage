@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Network;
 using TreeEditor;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -66,7 +67,7 @@ public class RelayManager : GenericSingleton<RelayManager>
             allocation.ConnectionData);
             
         NetworkManager.Singleton.StartHost();
-        NetworkManager.Singleton.SceneManager.LoadScene("MapLevel", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene(GameLobbyManager.Instance.GetLobbyMapName, LoadSceneMode.Single);
         
         return _joinCode;
     }

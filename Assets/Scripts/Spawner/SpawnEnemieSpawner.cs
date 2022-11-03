@@ -92,7 +92,7 @@ public class SpawnEnemieSpawner : MonoBehaviour
 
     private void nextBudget()
     {
-        _budget = _budget * 2;
+        _budget = (int)(_budget + 1);
     }
 
 }

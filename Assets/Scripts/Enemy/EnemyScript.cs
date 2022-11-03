@@ -44,9 +44,11 @@ public class EnemyScript : NetworkBehaviour
             transform.LookAt(targetPosition);
             transform.position += transform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
-
+        Debug.Log(_health.Value);
         if (NetworkManager.Singleton.IsServer && _health.Value <= 0)
         {
+
+           
             Death();
         }
     }
@@ -84,7 +86,8 @@ public class EnemyScript : NetworkBehaviour
             GameObject gameObject = Instantiate(BXPI.GetItemPrefab(), transform.position, new Quaternion());
             gameObject.GetComponent<NetworkObject>().Spawn();
         }
-        Destroy(gameObject);
+        if(NetworkManager.Singleton.IsServer)
+            GetComponent<NetworkObject>().Despawn();
     }
 
     IEnumerator ChoseTarget()

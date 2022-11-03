@@ -19,6 +19,7 @@ namespace Network
         private LobbyPlayerData _localLobbyPlayerData;
         private LobbyData _lobbyData;
         private const int MAX_NUMBER_OF_PLAYERS = 4;
+        public string GetLobbyMapName => _lobbyData.SceneName; 
 
         public bool IsHost => _localLobbyPlayerData.Id == LobbyManager.Instance.GetHostId();
         

@@ -9,8 +9,8 @@ public class PlayerListReset : MonoBehaviour
     [SerializeField] private GameObjectListVariable _players;
     void Start()
     {
-        if (!NetworkManager.Singleton.IsServer)
-            return;
-        _players.SetGos(new List<GameObject>());
+        //if (!NetworkManager.Singleton.IsServer)
+        //    return;
+        //_players.SetGos(new List<GameObject>());
     }
 }
