@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b599a80d1e2bb549844bf56d289f1f3, type: 3}
-  m_Name: Vacum
+  m_Script: {fileID: 11500000, guid: ab518daedd0f6264ca656339fb19e0dc, type: 3}
+  m_Name: VacuumEvent
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 100000, guid: a478d6d92ef5900488f4cc185bbfc98d, type: 3}
-  _vacumDuration: 5
-  _vacumRange: 20
+  _listeners: []

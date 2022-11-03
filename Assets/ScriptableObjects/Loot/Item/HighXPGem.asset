@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HighXPGem
   m_EditorClassIdentifier: 
   _itemPrefab: {fileID: 1979160698067578, guid: 3a6cd70afe3994b029620c71204033a4, type: 3}
-  _baseXPValue: 0
+  xpValue: 150
