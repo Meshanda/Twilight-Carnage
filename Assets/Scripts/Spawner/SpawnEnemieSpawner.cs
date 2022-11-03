@@ -31,7 +31,7 @@ public class SpawnEnemieSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_players == null || _players.GetGos().Count == 0 ||  !NetworkManager.Singleton.IsServer)
+        if (_players == null || _players.GetGos().Count <= 1 ||  !NetworkManager.Singleton.IsServer)
         {
 
             return;

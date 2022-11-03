@@ -22,7 +22,7 @@ public class AttackEnemy : MonoBehaviour
             return;
         _time = _timeBetweenTick;
 
-        PlayerHpSetter hp = other.GetComponent<PlayerHpSetter>();
+        PlayerHpSetter hp = other.transform.parent.GetComponent<PlayerHpSetter>();
 
         if (hp == null)
             return;
