@@ -18,9 +18,14 @@ public class EnemyScript : NetworkBehaviour
     
     private void Start()
     {
-        //_players = GameObject.FindGameObjectsWithTag("Player");
-        if(NetworkManager.Singleton.IsServer)
-         StartCoroutine(ChoseTarget());
+        
+        _players = GameObject.FindGameObjectsWithTag("Player");
+        if (NetworkManager.Singleton.IsServer)
+        {
+            StartCoroutine(ChoseTarget());
+            _health.Value = enemyStatSO.MaxHealth;
+        }
+         
     }
 
     public void SetPlayer(GameObject[] players) 
@@ -33,21 +38,36 @@ public class EnemyScript : NetworkBehaviour
     {
         if (_target)
         {
-            Vector3 targetPostition = _target.transform.position;
-            targetPostition.y = transform.position.y;
+            Vector3 targetPosition = _target.transform.position;
+            targetPosition.y = transform.position.y;
 
-            transform.LookAt(targetPostition);
+            transform.LookAt(targetPosition);
             transform.position += transform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
-    }
 
-    public void TakeDamage(float hit)
-    {
-        _health.Value -= hit;
-        if (_health.Value <= 0)
+        if (NetworkManager.Singleton.IsServer && _health.Value <= 0)
         {
             Death();
         }
+    }
+
+    public void Damage(float hit)
+    {
+        if (NetworkManager.Singleton.IsServer)
+            TakeDamage(hit);
+        else
+            TakeDamageServerRPC(hit);
+    }
+    
+    private void TakeDamage(float hit)
+    {
+        _health.Value -= hit;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void TakeDamageServerRPC(float hit)
+    {
+        _health.Value -= hit;
     }
     
     void Death()

@@ -8,10 +8,6 @@ namespace ScriptableObjects
     public class BaseFoodItem : GenericItemSO
     {
         [SerializeField] private float _foodValue;
-        public override void ItemFunction()
-        {
-            //TODO: Do something with food
-        }
     }
 }
 

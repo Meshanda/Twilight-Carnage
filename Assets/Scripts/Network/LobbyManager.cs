@@ -43,7 +43,7 @@ public class LobbyManager : GenericSingleton<LobbyManager>
         Debug.Log("Lobby successfuly create with id: " + _lobby.Id);
 
         _heartbeatCoroutine = StartCoroutine(HeartbeatLobbyCoroutine(_lobby.Id, 6f));
-        _refreshCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1.1f));
+        _refreshCoroutine = StartCoroutine(RefreshLobbyCoroutine(_lobby.Id, 1f));
         
         return true;
     }

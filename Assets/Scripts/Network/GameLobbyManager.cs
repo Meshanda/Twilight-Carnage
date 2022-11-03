@@ -5,7 +5,9 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay.Models;
 using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Network
@@ -95,7 +97,25 @@ namespace Network
             if (_lobbyData.RelayJoinCode != default)
             {
                 await JoinRelayServer(_lobbyData.RelayJoinCode);
-                SceneManager.LoadSceneAsync(_lobbyData.SceneName);
+                
+                if (!NetworkManager.Singleton.IsHost)
+                {
+                    var transport = NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
+                    transport.ConnectionData.Address = RelayManager.Instance.Ip;
+                    transport.ConnectionData.Port = Convert.ToUInt16(RelayManager.Instance.Port);
+            
+                    transport.SetRelayServerData(RelayManager.Instance.Ip, 
+                        Convert.ToUInt16(RelayManager.Instance.Port),
+                        RelayManager.Instance.GetAllocationIdByte,
+                        RelayManager.Instance.ClientKey,
+                        RelayManager.Instance.GetConnectionDataByte,
+                        RelayManager.Instance.HostConnectionData
+                    );
+            
+                    NetworkManager.Singleton.StartClient();
+                }
+                
+                //SceneManager.LoadSceneAsync(_lobbyData.SceneName);
             }
         }
 
@@ -140,21 +160,20 @@ namespace Network
 
             await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(), allocationId, connectionData);
 
-
-            // NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData =
-            //     new UnityTransport.ConnectionAddressData()
-            //     {
-            //         Address = RelayManager.Instance.Ip,
-            //         Port = ushort.Parse(RelayManager.Instance.Port.ToString())
-            //     };
-            //
-            // if (IsHost)
-            //     NetworkManager.Singleton.StartHost();
-            // else
-            //     NetworkManager.Singleton.StartClient();
+            var transport = NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
+            transport.ConnectionData.Address = RelayManager.Instance.Ip;
+            transport.ConnectionData.Port = Convert.ToUInt16(RelayManager.Instance.Port);
             
-
-            SceneManager.LoadSceneAsync(_lobbyData.SceneName);
+            transport.SetRelayServerData(RelayManager.Instance.Ip, 
+                Convert.ToUInt16(RelayManager.Instance.Port),
+                RelayManager.Instance.GetAllocationIdByte,
+                RelayManager.Instance.HostKey,
+                RelayManager.Instance.GetConnectionDataByte
+                );
+            
+            NetworkManager.Singleton.StartHost();
+            
+            //SceneManager.LoadSceneAsync(_lobbyData.SceneName);
         }
         
         private async Task<bool> JoinRelayServer(string relayJoinCode)

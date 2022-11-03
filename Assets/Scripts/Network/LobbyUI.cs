@@ -122,7 +122,8 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateSkin(int index)
     {
-        _skinName.text = "Skin" + index + 1;
+        index++;
+        _skinName.text = "Skin" + index;
     }
 
     private async void OnMapLeftButtonClicked()

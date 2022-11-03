@@ -36,7 +36,7 @@ public class Bullet : NetworkBehaviour
     {
         if (!IsServer)
             return;
-        
+
         _distTraveled = Vector3.Distance(_startPos, transform.position);
         if (_distTraveled > MaxDistance)
         {
@@ -48,5 +48,20 @@ public class Bullet : NetworkBehaviour
     public bool IsDead()
     {
         return Life <= 0;
+    }
+
+    public void OnTriggerEnter(Collider other) 
+    {
+        EnemyScript  es = other.GetComponent<EnemyScript>();
+        if (es == null)
+            return;
+        es.Damage(Damage);
+        ImpactBulletServerRPC();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void ImpactBulletServerRPC() 
+    {
+       gameObject.GetComponent<NetworkObject>().Despawn();
     }
 }

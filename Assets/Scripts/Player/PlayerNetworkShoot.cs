@@ -6,14 +6,12 @@ public class PlayerNetworkShoot : NetworkBehaviour
 {
     [SerializeField] private Transform _bulletPrefab;
 
-    private BulletManager _bulletManager;
     private PlayerShootData _playerShootData;
 
     private float _bulletXOffset = 0.3f;
 
     private void Start()
     {
-        _bulletManager = GameObject.Find("BulletManager").GetComponent<BulletManager>();
         _playerShootData = GetComponent<PlayerNetworkData>().PlayerShootData;
     }
 
@@ -43,7 +41,7 @@ public class PlayerNetworkShoot : NetworkBehaviour
         {
             Vector3 position = Vector3.forward; // decalage de 0.3
             position += new Vector3(startPosX, 0, 0);
-            position += Vector3.right * i * _bulletXOffset;
+            position += Vector3.right * (i * _bulletXOffset);
 
             Transform spawnedObject = Instantiate(_bulletPrefab, position, Quaternion.identity);
             spawnedObject.GetComponent<NetworkObject>().Spawn(true);
@@ -55,7 +53,7 @@ public class PlayerNetworkShoot : NetworkBehaviour
             bullet.Life = shootData.NbEnemyTouch;
             bullet.Speed = shootData.Speed;
 
-            _bulletManager.AddBullet(bullet);
+            BulletManager.Instance.AddBullet(bullet);
         }
     }
     

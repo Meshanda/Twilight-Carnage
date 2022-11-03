@@ -12,6 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dea30aaf415bfd459b4b25bec20e4ca, type: 3}
   m_Name: PlayerList
   m_EditorClassIdentifier: 
-  gos:
-  - {fileID: 0}
-  - {fileID: 0}
+  gos: []
