@@ -9,5 +9,7 @@ public static class GameLobbyEvents
     
     public delegate void LobbyReady();
     public static LobbyReady OnLobbyReady;
-
+        
+    public delegate void LobbyUnReady();
+    public static LobbyUnReady OnLobbyUnReady;
 }

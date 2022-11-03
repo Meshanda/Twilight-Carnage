@@ -87,6 +87,10 @@ namespace Network
             {
                 GameLobbyEvents.OnLobbyReady?.Invoke();
             }
+            else
+            {
+                GameLobbyEvents.OnLobbyUnReady?.Invoke();
+            }
 
             if (_lobbyData.RelayJoinCode != default)
             {
@@ -164,7 +168,18 @@ namespace Network
             
             return true;
         }
-        
+
+        public int GetLocalSkinIndex()
+        {
+            return _localLobbyPlayerData.SkinIndex;
+        }
+
+        public async Task<bool> SetLocalSkinIndex(int skinIndex)
+        {
+            _localLobbyPlayerData.SkinIndex = skinIndex;
+            
+            return await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize());
+        }
     }
 }
         
