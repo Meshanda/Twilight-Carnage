@@ -18,7 +18,7 @@ public class EnemyScript : NetworkBehaviour
     
     private void Start()
     {
-        _players = GameObject.FindGameObjectsWithTag("Player");
+        //_players = GameObject.FindGameObjectsWithTag("Player");
         if(NetworkManager.Singleton.IsServer)
          StartCoroutine(ChoseTarget());
     }
@@ -33,7 +33,10 @@ public class EnemyScript : NetworkBehaviour
     {
         if (_target)
         {
-            transform.LookAt(_target.transform);
+            Vector3 targetPostition = _target.transform.position;
+            targetPostition.y = transform.position.y;
+
+            transform.LookAt(targetPostition);
             transform.position += transform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
     }

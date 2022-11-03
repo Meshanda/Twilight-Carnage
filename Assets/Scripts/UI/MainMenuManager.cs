@@ -2,6 +2,7 @@ using System;
 using Network;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -70,6 +71,14 @@ namespace UI
         {
             playMenu.SetActive(true);
             joinMenu.SetActive(false);
+        }
+
+        public void QuitButton()
+        {
+#if UNITY_EDITOR
+            EditorApplication.ExitPlaymode();
+#endif
+            Application.Quit();
         }
     }
 }

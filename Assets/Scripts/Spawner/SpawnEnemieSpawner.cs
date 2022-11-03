@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class SpawnEnemieSpawner : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _players;
+    [SerializeField] private GameObjectListVariable _players;
     [SerializeField] private GameObject _enemySpawner;
 
     [SerializeField] private float _distanceFromPlayer;
     [SerializeField] private float _timeInit;
-    private float _time = 0 ;
+    private float _time = 0;
 
-    [SerializeField, Range(0,1)] private float _vectorOffset;
+    [SerializeField, Range(0, 1)] private float _vectorOffset;
 
     private Vector3 _opposingVectorDebug = Vector3.zero;
     private int _playerIndexDebug = 0;
@@ -25,13 +25,18 @@ public class SpawnEnemieSpawner : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-
         _nbrSpawnned.value = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_players == null || _players.GetGos().Count <= 1 ||  !NetworkManager.Singleton.IsServer)
+        {
+
+            return;
+        }
+
         _time -= Time.deltaTime;
 
         if (_time > 0 || !NetworkManager.Singleton.IsServer)
@@ -42,25 +47,29 @@ public class SpawnEnemieSpawner : MonoBehaviour
         Spawn();
     }
 
-    private void Spawn() 
+    private void Spawn()
     {
-        if (_players == null || _nbrSpawnned.value > _maxSpawn)
+        if (_players == null|| _players.GetGos().Count <= 0 || _nbrSpawnned.value > _maxSpawn)
+        {
             return;
-        for(int j = 0; j < _players.Count; j++)
+        }
+        GameObject[] players = _players.GetGos().ToArray();
+
+        for (int j = 0; j < players.Length; j++)
         {
             int playerIndex = j;
 
-            if (_players[playerIndex] == null)
+            if (players[playerIndex] == null)
                 Debug.LogError("_playerNull WTF");
 
             Vector3 opposingVector = Vector3.zero;
 
-            for (int i = 0; i < _players.Count; i++)
+            for (int i = 0; i < players.Length; i++)
             {
-                if (i == playerIndex || _players[i] == null)
+                if (i == playerIndex || players[i] == null)
                     continue;
 
-                opposingVector += (_players[i].transform.position - _players[playerIndex].transform.position).normalized;
+                opposingVector += (players[i].transform.position - players[playerIndex].transform.position).normalized;
             }
 
             opposingVector = -opposingVector.normalized;
@@ -70,24 +79,20 @@ public class SpawnEnemieSpawner : MonoBehaviour
 
             opposingVector = opposingVector.normalized;
 
-            GameObject go = Instantiate(_enemySpawner, _players[playerIndex].transform.position + opposingVector * _distanceFromPlayer, Quaternion.identity);
-            _nbrSpawnned.value += go.GetComponent<SpawnEnemieWave>().SpawnPool(_budget, _players);
+            GameObject go = Instantiate(_enemySpawner, players[playerIndex].transform.position + opposingVector * _distanceFromPlayer, Quaternion.identity);
+            _nbrSpawnned.value += go.GetComponent<SpawnEnemieWave>().SpawnPool(_budget,new List<GameObject>(players));
             _opposingVectorDebug = opposingVector;
 
             _playerIndexDebug = playerIndex;
 
-            go.transform.LookAt(_players[j].transform);
+            go.transform.LookAt(players[j].transform);
         }
         nextBudget();
     }
-    
-    private void nextBudget() 
+
+    private void nextBudget()
     {
         _budget = _budget * 2;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(_players[_playerIndexDebug].transform.position, _players[_playerIndexDebug].transform.position + _opposingVectorDebug * _distanceFromPlayer);
-    }
 }
