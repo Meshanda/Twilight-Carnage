@@ -97,24 +97,7 @@ namespace Network
             if (_lobbyData.RelayJoinCode != default)
             {
                 await JoinRelayServer(_lobbyData.RelayJoinCode);
-                
-                if (!NetworkManager.Singleton.IsHost)
-                {
-                    var transport = NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
-                    transport.ConnectionData.Address = RelayManager.Instance.Ip;
-                    transport.ConnectionData.Port = Convert.ToUInt16(RelayManager.Instance.Port);
-            
-                    transport.SetRelayServerData(RelayManager.Instance.Ip, 
-                        Convert.ToUInt16(RelayManager.Instance.Port),
-                        RelayManager.Instance.GetAllocationIdByte,
-                        RelayManager.Instance.ClientKey,
-                        RelayManager.Instance.GetConnectionDataByte,
-                        RelayManager.Instance.HostConnectionData
-                    );
-            
-                    NetworkManager.Singleton.StartClient();
-                }
-                
+
                 //SceneManager.LoadSceneAsync(_lobbyData.SceneName);
             }
         }
@@ -160,19 +143,6 @@ namespace Network
 
             await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(), allocationId, connectionData);
 
-            var transport = NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
-            transport.ConnectionData.Address = RelayManager.Instance.Ip;
-            transport.ConnectionData.Port = Convert.ToUInt16(RelayManager.Instance.Port);
-            
-            transport.SetRelayServerData(RelayManager.Instance.Ip, 
-                Convert.ToUInt16(RelayManager.Instance.Port),
-                RelayManager.Instance.GetAllocationIdByte,
-                RelayManager.Instance.HostKey,
-                RelayManager.Instance.GetConnectionDataByte
-                );
-            
-            NetworkManager.Singleton.StartHost();
-            
             //SceneManager.LoadSceneAsync(_lobbyData.SceneName);
         }
         

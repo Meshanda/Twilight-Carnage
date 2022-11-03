@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using TreeEditor;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
@@ -52,6 +56,16 @@ public class RelayManager : GenericSingleton<RelayManager>
         _connectionData = allocation.ConnectionData;
         
 
+        var transport = NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
+            
+        transport.SetHostRelayData(allocation.RelayServer.IpV4,
+            (ushort)allocation.RelayServer.Port,
+            allocation.AllocationIdBytes,
+            allocation.Key,
+            allocation.ConnectionData);
+            
+        NetworkManager.Singleton.StartHost();
+        
         return _joinCode;
     }
 
@@ -69,6 +83,17 @@ public class RelayManager : GenericSingleton<RelayManager>
 
         _hostConnectionData = allocation.HostConnectionData;
         _clientKey = allocation.Key;
+        
+        var transport = NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
+            
+        transport.SetClientRelayData(allocation.RelayServer.IpV4, 
+            (ushort)allocation.RelayServer.Port,
+            allocation.AllocationIdBytes,
+            allocation.Key,
+            allocation.ConnectionData,
+            allocation.HostConnectionData);
+            
+        NetworkManager.Singleton.StartClient();
 
         return true;
     }
