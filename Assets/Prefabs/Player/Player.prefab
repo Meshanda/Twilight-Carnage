@@ -146,6 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateSpeed: 0.05
+  _bulletPrefab: {fileID: 8079844845925771088, guid: df4c1ce170ac4244d8441e18bd31aca8, type: 3}
+  _shootDelay: {fileID: 11400000, guid: 7771d9538bc043c47b94dc683c5ddca2, type: 2}
   _terrainLayer:
     serializedVersion: 2
     m_Bits: 128
