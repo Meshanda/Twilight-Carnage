@@ -20,29 +20,29 @@ public class Bullet : NetworkBehaviour
         _startPos = transform.position;
     }
 
-    // private void Update()
-    // {
-    //     ManageDistance();
-    //
-    //     if (!IsOwner)
-    //         return;
-    //
-    //     Transform bulletTransform = transform;
-    //     Vector3 newPosition = bulletTransform.position + bulletTransform.forward * (Speed * Time.deltaTime);
-    //     bulletTransform.position = newPosition;
-    // }
-    //
-    // private void ManageDistance()
-    // {
-    //     if (!IsServer)
-    //         return;
-    //     
-    //     _distTraveled = Vector3.Distance(_startPos, transform.position);
-    //     if (_distTraveled > MaxDistance)
-    //     {
-    //         GetComponent<NetworkObject>().Despawn();
-    //     }
-    // }
+    private void Update()
+    {
+        ManageDistance();
+
+        if (!IsOwner)
+            return;
+
+        Transform bulletTransform = transform;
+        Vector3 newPosition = bulletTransform.position + bulletTransform.forward * (Speed * Time.deltaTime);
+        bulletTransform.position = newPosition;
+    }
+
+    private void ManageDistance()
+    {
+        if (!IsServer)
+            return;
+
+        _distTraveled = Vector3.Distance(_startPos, transform.position);
+        if (_distTraveled > MaxDistance)
+        {
+            GetComponent<NetworkObject>().Despawn();
+        }
+    }
 
 
     public bool IsDead()
