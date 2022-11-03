@@ -36,7 +36,7 @@ namespace Network
         public async Task<bool> CreateLobby()
         {
             _localLobbyPlayerData = new LobbyPlayerData();
-            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "HostPlayer");
+            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, UIManager.Instance.Name);
             
             _lobbyData = new LobbyData();
             _lobbyData.Initialize(0);
@@ -52,7 +52,7 @@ namespace Network
         public async Task<bool> JoinLobby(string lobbyCode)
         {
             _localLobbyPlayerData = new LobbyPlayerData();
-            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
+            _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, UIManager.Instance.Name);
             
             return await LobbyManager.Instance.JoinLobby(lobbyCode, _localLobbyPlayerData.Serialize());
         }
@@ -98,8 +98,6 @@ namespace Network
             if (_lobbyData.RelayJoinCode != default)
             {
                 await JoinRelayServer(_lobbyData.RelayJoinCode);
-
-                //SceneManager.LoadSceneAsync(_lobbyData.SceneName);
             }
         }
 
@@ -143,8 +141,6 @@ namespace Network
             var connectionData = RelayManager.Instance.GetConnectionData();
 
             await LobbyManager.Instance.UpdatePlayerData(_localLobbyPlayerData.Id, _localLobbyPlayerData.Serialize(), allocationId, connectionData);
-
-            //SceneManager.LoadSceneAsync(_lobbyData.SceneName);
         }
         
         private async Task<bool> JoinRelayServer(string relayJoinCode)

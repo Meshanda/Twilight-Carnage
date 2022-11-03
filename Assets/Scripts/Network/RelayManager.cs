@@ -66,6 +66,7 @@ public class RelayManager : GenericSingleton<RelayManager>
             allocation.ConnectionData);
             
         NetworkManager.Singleton.StartHost();
+        NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerNameSetter>().SetName(UIManager.Instance.Name);
         NetworkManager.Singleton.SceneManager.LoadScene(GameLobbyManager.Instance.GetLobbyMapName, LoadSceneMode.Single);
         
         return _joinCode;
@@ -96,6 +97,7 @@ public class RelayManager : GenericSingleton<RelayManager>
             allocation.HostConnectionData);
             
         NetworkManager.Singleton.StartClient();
+        NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerNameSetter>().SetName(UIManager.Instance.Name);
 
         return true;
     }
