@@ -53,5 +53,11 @@ public class PlayerHpSetter : NetworkBehaviour
     void DeathServerRPC()
     {
         gameObject.SetActive(false);
+        DeathClientRPC();
+    }
+    [ClientRpc]
+    void DeathClientRPC()
+    {
+        gameObject.SetActive(false);
     }
 }

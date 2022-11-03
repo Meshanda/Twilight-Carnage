@@ -22723,8 +22723,9 @@ GameObject:
   m_Component:
   - component: {fileID: 995260870}
   - component: {fileID: 995260869}
+  - component: {fileID: 995260871}
   m_Layer: 0
-  m_Name: GameObject (2)
+  m_Name: DeathSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22775,6 +22776,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &995260871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995260868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ee936b0be076b846a1dac997cd83328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _players: {fileID: 11400000, guid: f39047d67e34f834faf299c61cb345b6, type: 2}
+  _endGame: {fileID: 11400000, guid: 6ce8cf10193cc2c45828c3197030f7cc, type: 2}
 --- !u!4 &997838451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 3d30d76bf390fc742b8fdd356d040839, type: 3}
