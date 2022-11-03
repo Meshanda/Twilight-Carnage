@@ -15,6 +15,7 @@ public class PlayerTargetShoot : NetworkBehaviour
     [Range(0.0f, 0.3f)]
     [Tooltip("How fast the character face the direction")]
     [SerializeField] private float _rotateSpeed;
+    [SerializeField] private GameObject _rotateFrom;
 
     [SerializeField] private GameObject _killian; 
 
