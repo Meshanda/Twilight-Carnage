@@ -9,14 +9,14 @@ using UnityEngine;
 public class PopUpFreeze : NetworkBehaviour
 {
     [SerializeField] private Canvas _canvas;
-    
+
     private float _freezeSpeed = 1.0f; // 1 -> 1sec/1 = 1sec, 0.5 -> 1sec/0.5 = 2sec, 2 -> 1sec/2 = 0.5sec
     private WaitForEndOfFrame _cachedYield = new WaitForEndOfFrame();
 
     private bool _isAnimating;
 
     private int _clientsReady = 0;
-    
+
     // PowerUps
     [SerializeField] private IntEffect _damageUp;
     [SerializeField] private IntEffect _numberUp;
@@ -24,14 +24,15 @@ public class PopUpFreeze : NetworkBehaviour
     [SerializeField] private FloatEffect _speedUp;
 
     private PlayerShootData _playerShootData;
-    
+
     private void Start()
     {
     }
 
     public override void OnNetworkSpawn()
     {
-        _playerShootData = NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerNetworkData>().PlayerShootData;
+        _playerShootData = NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerNetworkData>()
+                        .PlayerShootData;
         base.OnNetworkSpawn();
     }
 
@@ -51,7 +52,7 @@ public class PopUpFreeze : NetworkBehaviour
             StartFreezeClientRpc();
         }
     }
-    
+
     private bool IsTimeFreezed()
     {
         return Time.timeScale <= 0;
@@ -68,7 +69,6 @@ public class PopUpFreeze : NetworkBehaviour
         {
             while (Time.timeScale > 0)
             {
-                
                 Time.timeScale = Mathf.Max(Time.timeScale - Time.unscaledDeltaTime * _freezeSpeed, 0);
                 yield return _cachedYield;
             }
@@ -90,15 +90,17 @@ public class PopUpFreeze : NetworkBehaviour
     [ClientRpc]
     public void StartFreezeClientRpc()
     {
-        StartFreeze();
+        if (!NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerHpSetter>().IsDead())
+            StartFreeze();
     }
 
     [ClientRpc]
     void StopFreezeClientRpc()
     {
-        StopFreeze();
+        if (!NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerHpSetter>().IsDead())
+            StopFreeze();
     }
-    
+
     public void StartFreeze()
     {
         if (_isAnimating)
@@ -107,37 +109,37 @@ public class PopUpFreeze : NetworkBehaviour
         _isAnimating = true;
 
         _clientsReady = 0;
-        
+
         StopFreezeTimeCoroutine();
         StartCoroutine(FreezeTimeCoroutine());
         // ...
     }
-    
+
     private void TimeFreezed()
     {
         _isAnimating = false;
-        
+
         // show UI
         _canvas.enabled = true;
     }
-    
+
     public void StopFreeze()
     {
         if (_isAnimating)
             return;
 
         _isAnimating = true;
-        
+
         StopFreezeTimeCoroutine();
         StartCoroutine(FreezeTimeCoroutine(false));
         // hide UI
         _canvas.enabled = false;
     }
-    
+
     private void TimeUnfreezed()
     {
         _isAnimating = false;
-        
+
         // ...
     }
 
@@ -167,11 +169,26 @@ public class PopUpFreeze : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void ClientReadyServerRpc()
     {
+        // Get the number of alive player
+        int cpt = GetNbAlivePlayer();
+
         _clientsReady++;
-        if (NetworkManager.ConnectedClients.Count <= _clientsReady)
+        if (cpt <= _clientsReady)
         {
             StopFreezeClientRpc();
         }
     }
-    
+
+    private int GetNbAlivePlayer()
+    {
+        int counter = 0;
+        foreach (var value in NetworkManager.ConnectedClients)
+        {
+            if (!value.Value.PlayerObject.GetComponent<PlayerHpSetter>().IsDead())
+            {
+                counter += 1;
+            }
+        }
+        return counter;
+    }
 }

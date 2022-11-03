@@ -22,6 +22,10 @@ public class PlayerHpSetter : NetworkBehaviour
         }
     }
 
+    public bool IsDead()
+    {
+        return CurrentHp <= 0;
+    }
 
     public void TakeDamage( float hp)
     {
