@@ -26,7 +26,7 @@ public class PlayerMovement : NetworkBehaviour
 	[Range(0.0f, 0.3f)]
 	[Tooltip("How fast the character face the direction")]
 	[SerializeField] private float _rotateSpeed;
-
+	
 
 	private float _targetRotation;
 	private float _rotationVelocity;
