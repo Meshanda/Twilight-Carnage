@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using ParrelSync;
+#endif
+
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
@@ -12,7 +15,9 @@ public class Init : MonoBehaviour
     async void Start()
     {
         var options = new InitializationOptions();
+#if UNITY_EDITOR
         options.SetProfile(ClonesManager.IsClone() ? ClonesManager.GetArgument() : "MasterProfile");
+#endif
 
         await UnityServices.InitializeAsync(options);
 
