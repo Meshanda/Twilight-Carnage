@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.Serialization;
+using UnityEngine.TextCore.Text;
 
 public class EnemyScript : NetworkBehaviour
 {
@@ -37,7 +38,7 @@ public class EnemyScript : NetworkBehaviour
             transform.LookAt(targetPosition);
             transform.position += transform.forward * (enemyStatSO.Movespeed * Time.deltaTime);
         }
-        Debug.Log(_health.Value);
+        
         if (NetworkManager.Singleton.IsServer && _health.Value <= 0)
         {
 
