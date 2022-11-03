@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c29e595f2982174bbccbaa76e8f7967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerShootDataDefault: {fileID: 11400000, guid: 7f9bd5388b2d2504ca03ccd24e91f330, type: 2}
   _playerShootData: {fileID: 11400000, guid: 19e97a222f0a31e4ebea35faca995e74, type: 2}
 --- !u!114 &6927204491866717305
 MonoBehaviour:
@@ -405,11 +406,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1305303246523899597, guid: f898b544e456dc444a66f7fd964e5add, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001946241
+      value: 0.00000005214112
       objectReference: {fileID: 0}
     - target: {fileID: 1305303246523899597, guid: f898b544e456dc444a66f7fd964e5add, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000010415966
+      value: -0.00000002790508
       objectReference: {fileID: 0}
     - target: {fileID: 1305303247677715250, guid: f898b544e456dc444a66f7fd964e5add, type: 3}
       propertyPath: m_RootOrder
@@ -485,11 +486,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1305303247896634363, guid: f898b544e456dc444a66f7fd964e5add, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000001946241
+      value: 0.00000005214112
       objectReference: {fileID: 0}
     - target: {fileID: 1305303247896634363, guid: f898b544e456dc444a66f7fd964e5add, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000010415966
+      value: -0.00000002790508
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f898b544e456dc444a66f7fd964e5add, type: 3}
