@@ -12,7 +12,7 @@ public class EnemyScript : NetworkBehaviour
     [SerializeField] private GenericLootTableSO enemyLootTableSO;
     [SerializeField] private float timeBetweenRetarget; 
     [SerializeField] private GameObjectListVariable _players;
-
+    [SerializeField] private ScriptableObjects.Variables.FloatVariable _nbreEnemy;
     private NetworkVariable<float> _health = new NetworkVariable<float>();
     private GameObject _target;
     
@@ -91,4 +91,10 @@ public class EnemyScript : NetworkBehaviour
             yield return new WaitForSeconds(timeBetweenRetarget);
         }
     }
+
+    public void OnDestroy()
+    {
+        _nbreEnemy.value--;
+    }
+
 }
