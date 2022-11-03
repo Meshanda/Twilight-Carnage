@@ -55,7 +55,7 @@ public class Bullet : NetworkBehaviour
         EnemyScript  es = other.GetComponent<EnemyScript>();
         if (es == null)
             return;
-        es.TakeDamage(Damage);
+        es.Damage(Damage);
         ImpactBulletServerRPC();
     }
 
