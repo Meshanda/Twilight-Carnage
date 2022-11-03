@@ -355,3 +355,5 @@ MonoBehaviour:
   _laserSpawnPoint: {fileID: 4776207829484173947}
   _timeAttack: 5
   _nbLaser: 3
+  _laserSpeed: 0.1
+  _moveLaser: 0

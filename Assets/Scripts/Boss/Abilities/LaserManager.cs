@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class LaserManager : MonoBehaviour
+public class LaserManager : NetworkBehaviour
 {
     [SerializeField] private Transform _laserPrefab;
     [SerializeField] private Transform _laserSpawnPoint;
 
     [SerializeField] private float _timeAttack = 5.0f;
     [SerializeField] private int _nbLaser = 1;
+    [SerializeField] private float _laserSpeed;
+
+    [SerializeField] private bool _moveLaser;
 
     private List<Transform> _spawnedLasers = new List<Transform>();
 
@@ -22,22 +25,25 @@ public class LaserManager : MonoBehaviour
     {
         if (_hasLaserSpawned)
         {
-            // Move Laser Clockwise
-            // MoveLaser();
+            if(_moveLaser)
+                MoveLaserClientRpc(_laserSpeed);
 
-            _timeSpend += Time.deltaTime;
+            _timeSpend += Time.deltaTime;   
 
             if (_timeSpend >= _timeAttack)
             {
                 // End the attack
                 _timeSpend = 0.0f;
-                EndAttack();
+                EndAttackClientRpc();
             }
         }
     }
 
-    private void MoveLaser()
+    [ClientRpc]
+    private void MoveLaserClientRpc(float speed)
     {
+        _laserSpeed = speed;
+        
         foreach (Transform spawnedLaser in _spawnedLasers)
         {
             LineRenderer laserLineRenderer = spawnedLaser.GetChild(0).GetComponent<LineRenderer>();
@@ -51,7 +57,7 @@ public class LaserManager : MonoBehaviour
                 angle = 360 - angle * -1;
             }
 
-            angle += .1f;
+            angle += _laserSpeed;
             angle = VerifyAngle(angle);
 
             Vector3 newDirection = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), 0, Mathf.Cos(Mathf.Deg2Rad * angle));
@@ -63,12 +69,13 @@ public class LaserManager : MonoBehaviour
         }
     }
 
-    private void EndAttack()
+    [ClientRpc]
+    private void EndAttackClientRpc()
     {
         _hasLaserSpawned = false;
         foreach (Transform laser in _spawnedLasers)
         {
-            laser.GetComponent<NetworkObject>().Despawn();
+            Destroy(laser.gameObject);
         }
         _spawnedLasers.Clear();
     }
@@ -85,6 +92,14 @@ public class LaserManager : MonoBehaviour
 
     public void StartAbility()
     {
+        LaserClientRpc(_nbLaser);
+    }
+
+    [ClientRpc]
+    private void LaserClientRpc(int nbLaser)
+    {
+        _nbLaser = nbLaser;
+        
         float augmentAngle = 360.0f / _nbLaser;
         float angle = 0.0f;
 
@@ -93,7 +108,7 @@ public class LaserManager : MonoBehaviour
             Transform spawnedTransform = Instantiate(_laserPrefab, _laserSpawnPoint);
             _spawnedLasers.Add(spawnedTransform);
 
-            spawnedTransform.GetComponent<NetworkObject>().Spawn(true);
+            // spawnedTransform.GetComponent<NetworkObject>().Spawn(true);
 
             LineRenderer laserLineRenderer = spawnedTransform.GetChild(0).GetComponent<LineRenderer>();
 
@@ -109,11 +124,8 @@ public class LaserManager : MonoBehaviour
             Vector3 position = _laserSpawnPoint.position;
             laserLineRenderer.SetPosition(0, position);
             laserLineRenderer.SetPosition(1, position + (direction * hit.distance));
-            
-            // Those set position dont apply on clients ....
-            // So their laser dont move and are tiny ....
         }
-
+        
         _hasLaserSpawned = true;
     }
 }

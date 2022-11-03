@@ -25,7 +25,7 @@ public class BossCheatController : NetworkBehaviour
         if (!_hasSpawn) return;
        
         Debug.Log("Boss : Ability One");
-        _bossController.LaunchDash();
+        _bossController.LaunchLaser();
     }
 
     [ServerRpc]
