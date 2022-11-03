@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e79c68495f2574a4cab931775c2a2eb3, type: 3}
-  m_Name: LowXPGem
+  m_Script: {fileID: 11500000, guid: a0648110d48b9184cba6e8685448fb26, type: 3}
+  m_Name: Vacuum
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 1842001814111822, guid: 241df458ac096470fbc5985302fd9709, type: 3}
-  _baseXPValue: 0
+  _itemPrefab: {fileID: 3749564235836224151, guid: d30ff08cdac10a54daccd8fa4cbd1da6, type: 3}

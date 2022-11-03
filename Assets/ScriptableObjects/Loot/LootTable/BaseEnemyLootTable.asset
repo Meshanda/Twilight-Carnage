@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: BaseEnemyLootTable
   m_EditorClassIdentifier: 
   _itemLootTable:
-  - Item: {fileID: 11400000, guid: 4d71bf3d967bf57448109a888baf6ae4, type: 2}
-    DropRate: 0.05
-  - Item: {fileID: 11400000, guid: b745556bcc15d9945be130c622c3c335, type: 2}
+  - Item: {fileID: 11400000, guid: 18b8099615bef6e4a839fc74bb545f41, type: 2}
     DropRate: 0.05
   _xpLootTable:
   - XP: {fileID: 11400000, guid: 116c6572a3b6fd84e916d9c5fff7e81e, type: 2}

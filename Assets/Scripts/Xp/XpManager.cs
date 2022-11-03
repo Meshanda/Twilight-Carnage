@@ -62,9 +62,7 @@ public class XpManager : NetworkBehaviour
         }
 
     }
-
     
-
     private void SetThreshold() 
     {
         _lvlThreshold.Value *= 1.5f;
