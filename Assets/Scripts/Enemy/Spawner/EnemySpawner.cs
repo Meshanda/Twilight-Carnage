@@ -60,13 +60,10 @@ public class EnemySpawner : MonoBehaviour
 
     void DamageEnemy()
     {
-        if (NetworkManager.Singleton.IsServer)
+        if (GUILayout.Button("Damage Enemy"))
         {
-            if (GUILayout.Button("Damage Enemy"))
-            {
-                GameObject Target = GameObject.FindGameObjectWithTag("Enemy");
-                Target.GetComponent<EnemyScript>().TakeDamage(10);
-            }
+            GameObject Target = GameObject.FindGameObjectWithTag("Enemy");
+            Target.GetComponent<EnemyScript>().Damage(10);
         }
     }
 
@@ -98,7 +95,6 @@ public class EnemySpawner : MonoBehaviour
             GameObject test = Instantiate(BXPI.GetItemPrefab(), GetRandomPositionOnPlane(), Quaternion.identity);
             test.GetComponent<NetworkObject>().Spawn();
         }
-        Debug.Log("Enemy is Dead.");
     }
     
     static Vector3 GetRandomPositionOnPlane()

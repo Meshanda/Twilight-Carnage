@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: MediumXPGem
   m_EditorClassIdentifier: 
   _itemPrefab: {fileID: 1391868987743216, guid: db74795c995e14120867d17d28adeead, type: 3}
-  _baseXPValue: 0
+  xpValue: 15

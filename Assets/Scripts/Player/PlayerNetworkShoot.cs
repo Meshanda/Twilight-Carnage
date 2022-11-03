@@ -41,7 +41,7 @@ public class PlayerNetworkShoot : NetworkBehaviour
         {
             Vector3 position = Vector3.forward; // decalage de 0.3
             position += new Vector3(startPosX, 0, 0);
-            position += Vector3.right * i * _bulletXOffset;
+            position += Vector3.right * (i * _bulletXOffset);
 
             Transform spawnedObject = Instantiate(_bulletPrefab, position, Quaternion.identity);
             spawnedObject.GetComponent<NetworkObject>().Spawn(true);
