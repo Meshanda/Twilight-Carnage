@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 1
   _nbEnemyTouch: 1
-  _bulletSpeed: 10
+  _bulletSpeed: 20
   _maxDistance: 15
-  _nbShoot: 1
+  _nbShoot: 2
   shootDelay: 2
