@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using DelegateToolBox;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PopUpFreeze : MonoBehaviour
+public class PopUpFreeze : NetworkBehaviour
 {
     [SerializeField] private Canvas _canvas;
     
@@ -13,6 +14,26 @@ public class PopUpFreeze : MonoBehaviour
     private WaitForEndOfFrame _cachedYield = new WaitForEndOfFrame();
 
     private bool _isAnimating;
+
+    private int _clientsReady = 0;
+    
+    // PowerUps
+    [SerializeField] private IntEffect _damageUp;
+    [SerializeField] private IntEffect _numberUp;
+    [SerializeField] private IntEffect _pierceUp;
+    [SerializeField] private FloatEffect _speedUp;
+
+    private PlayerShootData _playerShootData;
+    
+    private void Start()
+    {
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        _playerShootData = NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerNetworkData>().PlayerShootData;
+        base.OnNetworkSpawn();
+    }
 
     public void OnEventTriggerred() // Unity Event
     {
@@ -23,11 +44,11 @@ public class PopUpFreeze : MonoBehaviour
     {
         if (IsTimeFreezed())
         {
-            StopFreeze();
+            StopFreezeClientRpc();
         }
         else
         {
-            StartFreeze();
+            StartFreezeClientRpc();
         }
     }
     
@@ -66,12 +87,26 @@ public class PopUpFreeze : MonoBehaviour
         }
     }
 
+    [ClientRpc]
+    public void StartFreezeClientRpc()
+    {
+        StartFreeze();
+    }
+
+    [ClientRpc]
+    void StopFreezeClientRpc()
+    {
+        StopFreeze();
+    }
+    
     public void StartFreeze()
     {
         if (_isAnimating)
             return;
 
         _isAnimating = true;
+
+        _clientsReady = 0;
         
         StopFreezeTimeCoroutine();
         StartCoroutine(FreezeTimeCoroutine());
@@ -105,4 +140,38 @@ public class PopUpFreeze : MonoBehaviour
         
         // ...
     }
+
+
+    public void OnPowerUpSelected(int number)
+    {
+        switch (number)
+        {
+            case 1:
+                _playerShootData.ApplyEffect(_damageUp);
+                break;
+            case 2:
+                _playerShootData.ApplyEffect(_speedUp);
+                break;
+            case 3:
+                _playerShootData.ApplyEffect(_pierceUp);
+                break;
+            default:
+                _playerShootData.ApplyEffect(_numberUp);
+                break;
+        }
+
+        _canvas.enabled = false;
+        ClientReadyServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void ClientReadyServerRpc()
+    {
+        _clientsReady++;
+        if (NetworkManager.ConnectedClients.Count <= _clientsReady)
+        {
+            StopFreezeClientRpc();
+        }
+    }
+    
 }
