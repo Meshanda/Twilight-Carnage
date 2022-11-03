@@ -58,4 +58,5 @@ public class PlayerNetworkShoot : NetworkBehaviour
             _bulletManager.AddBullet(bullet);
         }
     }
+    
 }

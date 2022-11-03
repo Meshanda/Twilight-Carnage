@@ -22,15 +22,23 @@ public class PlayerTarget : NetworkBehaviour
     private float _rotationVelocity;
 #endregion
 
+#region Bullet
+    [SerializeField] private Transform _bulletPrefab;
+
+    private PlayerShootData _playerShootData;
+
+    private float _bulletXOffset = 0.3f;
+
+    private bool _onShoot = false;
+    private float _bulletTimer;
+#endregion
+
     [SerializeField] private LayerMask _terrainLayer;
     [SerializeField] private Camera _camera;
-    private GameObject _spawnedObj;
 
-    
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        _playerShootData = GetComponentInChildren<PlayerNetworkData>().PlayerShootData;
     }
 
     // Update is called once per frame
@@ -40,6 +48,18 @@ public class PlayerTarget : NetworkBehaviour
             return;
 
         Rotate();
+        
+        if(_bulletTimer < 0.0f)
+        {
+            if (_onShoot)
+            {
+                ShootServerRpc(_playerShootData.ToStruct());
+            }
+        }
+        else
+        {
+            _bulletTimer -= Time.deltaTime;
+        }
     }
 
     private void Rotate()
@@ -74,11 +94,48 @@ public class PlayerTarget : NetworkBehaviour
         
         Vector2 gamePadLA = value.Get<Vector2>();
 
-        _playerLookAt = new Vector3(gamePadLA.x, 0, gamePadLA.y);
-    }
-
-    protected void OnShoot()
-    {
+        if(gamePadLA == Vector2.zero)
+        {
+            _onShoot = false;
+            return;
+        }
         
+        _playerLookAt = new Vector3(gamePadLA.x, 0, gamePadLA.y);
+        
+        Debug.Log(_playerLookAt);
+
+        _onShoot = true;
+    }
+    
+    
+    protected void OnShoot(InputValue value)
+    {
+        if (!IsOwner)
+            return;
+        
+        _onShoot = value.isPressed;
+    }
+    
+    [ServerRpc]
+    private void ShootServerRpc(PlayerShootData.ShootRPC shootData)
+    {
+        _bulletTimer = shootData.ShootDelay;
+        
+        for (int i = 0; i < shootData.NbShoot; i++)
+        {
+            Vector3 position = transform.position; // decalage de 0.3
+            position += Vector3.right * (i * _bulletXOffset);
+            
+            Transform spawnedObject = Instantiate(_bulletPrefab, position, Quaternion.identity);
+            spawnedObject.transform.forward = transform.forward;
+            spawnedObject.GetComponent<NetworkObject>().Spawn(true);
+
+            Bullet bullet = spawnedObject.GetComponent<Bullet>();
+
+            // Set Bullet specs ...
+            bullet.Damage = shootData.Damage;
+            bullet.Life = shootData.NbEnemyTouch;
+            bullet.Speed = shootData.Speed;
+        }
     }
 }
