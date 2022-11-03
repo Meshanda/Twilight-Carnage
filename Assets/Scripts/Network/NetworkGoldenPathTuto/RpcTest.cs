@@ -7,7 +7,7 @@ public class RpcTest : NetworkBehaviour
     {
         if (!IsServer)
         {
-            TestServerRpc(0);
+            // TestServerRpc(0);
         }
     }
 
