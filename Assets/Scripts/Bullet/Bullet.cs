@@ -49,4 +49,19 @@ public class Bullet : NetworkBehaviour
     {
         return Life <= 0;
     }
+
+    public void OnTriggerEnter(Collider other) 
+    {
+        EnemyScript  es = other.GetComponent<EnemyScript>();
+        if (es == null)
+            return;
+        es.TakeDamage(Damage);
+        ImpactBulletServerRPC();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void ImpactBulletServerRPC() 
+    {
+       gameObject.GetComponent<NetworkObject>().Despawn();
+    }
 }
