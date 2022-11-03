@@ -1692,6 +1692,7 @@ MonoBehaviour:
   - {fileID: 250580028}
   _skinLeftButton: {fileID: 1555742124}
   _skinRightButton: {fileID: 1636766216}
+  _skinDatas: {fileID: 11400000, guid: 9af4ab06ae1848440b8e98369f2e1cbc, type: 2}
   _skinName: {fileID: 6464704405501152750}
 --- !u!4 &1181228292
 Transform:

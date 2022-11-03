@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 public class PlayerTargetShoot : NetworkBehaviour
@@ -15,9 +16,7 @@ public class PlayerTargetShoot : NetworkBehaviour
     [Range(0.0f, 0.3f)]
     [Tooltip("How fast the character face the direction")]
     [SerializeField] private float _rotateSpeed;
-    [SerializeField] private GameObject _rotateFrom;
-
-    [SerializeField] private GameObject _killian; 
+    [FormerlySerializedAs("_killian")] [SerializeField] private GameObject _rotateFrom; 
 
     private Vector3 _playerLookAt;
     private float _targetRotation;
@@ -75,7 +74,7 @@ public class PlayerTargetShoot : NetworkBehaviour
         _targetRotation = Mathf.Atan2(_playerLookAt.x, _playerLookAt.z) * Mathf.Rad2Deg + _camera.transform.eulerAngles.y;
         float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, _rotateSpeed);
         
-        _killian.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+        _rotateFrom.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
     }
     
     protected void OnTargetMouse(InputValue value)
@@ -135,7 +134,7 @@ public class PlayerTargetShoot : NetworkBehaviour
             position += transform.right * (i * _bulletXOffset);
             
             Transform spawnedObject = Instantiate(_bulletPrefab, _bulletOrigine.position, Quaternion.identity);
-            spawnedObject.transform.forward = _killian.transform.forward;
+            spawnedObject.transform.forward = _rotateFrom.transform.forward;
             spawnedObject.GetComponent<NetworkObject>().Spawn(true);
             
 

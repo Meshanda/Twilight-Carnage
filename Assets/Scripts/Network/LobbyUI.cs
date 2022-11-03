@@ -33,6 +33,7 @@ public class LobbyUI : MonoBehaviour
     [Header("Skin Selection")] 
     [SerializeField] private Button _skinLeftButton;
     [SerializeField] private Button _skinRightButton;
+    [SerializeField] private SkinSelectionData _skinDatas;
     [SerializeField] private TextMeshProUGUI _skinName;
 
     // ToDo : Replace with SO
@@ -122,8 +123,7 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateSkin(int index)
     {
-        index++;
-        _skinName.text = "Skin" + index;
+        _skinName.text = _skinDatas.Skins[index].SkinName;
     }
 
     private async void OnMapLeftButtonClicked()

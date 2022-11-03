@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: SkinSelectionData
   m_EditorClassIdentifier: 
   Skins:
-  - SkinName: Skin 1
-  - SkinName: Skin 2
-  - SkinName: Skin 3
+  - SkinName: Sans arme
+    Model: {fileID: 3417850978265711108, guid: f46b4105df60d4e4d82e1e828ef842b5, type: 3}
+  - SkinName: Baton
+    Model: {fileID: 2044548868066603735, guid: 3bbecb79d928b4f46a4c54d353becdd2, type: 3}
+  - SkinName: Epee bouclier
+    Model: {fileID: 7135517390275414437, guid: 16d0c44d5c556fb439c3ea2df8f1cf5b, type: 3}
