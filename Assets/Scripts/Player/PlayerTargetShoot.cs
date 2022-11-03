@@ -39,7 +39,7 @@ public class PlayerTargetShoot : NetworkBehaviour
 
     [SerializeField] private LayerMask _terrainLayer;
     [SerializeField] private Camera _camera;
-
+    [SerializeField] private Transform _bulletOrigine;
     private void Start()
     {
         _playerShootData = GetComponentInChildren<PlayerNetworkData>().PlayerShootData;
@@ -134,7 +134,7 @@ public class PlayerTargetShoot : NetworkBehaviour
             Vector3 position = transform.position; // decalage de 0.3
             position += transform.right * (i * _bulletXOffset);
             
-            Transform spawnedObject = Instantiate(_bulletPrefab, position, Quaternion.identity);
+            Transform spawnedObject = Instantiate(_bulletPrefab, _bulletOrigine.position, Quaternion.identity);
             spawnedObject.transform.forward = _killian.transform.forward;
             spawnedObject.GetComponent<NetworkObject>().Spawn(true);
             
