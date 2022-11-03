@@ -56,4 +56,5 @@ public class PlayerNetworkShoot : NetworkBehaviour
             BulletManager.Instance.AddBullet(bullet);
         }
     }
+    
 }

@@ -9,20 +9,24 @@ public class PlayerShootData : ScriptableObject
     [SerializeField] private int _damage = 1;
     [SerializeField] private int _nbEnemyTouch = 1;
     [SerializeField] private float _bulletSpeed = 10;
+    [SerializeField] private float _maxDistance = 1000;
     [Header("Shoot Data")]
     [SerializeField] private int _nbShoot = 1;
+    [SerializeField] private float shootDelay = 2;
 
     // Bullet data
     public int Damage { get => _damage; private set => _damage = value; }
     public int NbEnemyTouch { get => _nbEnemyTouch; private set => _nbEnemyTouch = value; } // == bullet life
-    public float BulletSpeed { get => _bulletSpeed; private set => _bulletSpeed = value; }
+    public float BulletSpeed { get => _bulletSpeed; private set => _bulletSpeed = value; }    
+    public float MaxDistance { get => _maxDistance; private set => _maxDistance = value; }    
 
     // Shoot data
     public int NbShoot { get => _nbShoot; private set => _nbShoot = value; }
+    public float ShootDelay { get => shootDelay; private set => shootDelay = value; }
 
     public enum ShootEnum
     {
-        Damage, NbEnemyTouch, BulletSpeed, NbShoot
+        Damage, NbEnemyTouch, BulletSpeed, NbShoot, ShootDelay, MaxDistance
     }
 
     public struct ShootRPC : INetworkSerializable
@@ -30,15 +34,20 @@ public class PlayerShootData : ScriptableObject
         public int Damage;
         public int NbEnemyTouch;
         public float Speed;
+        public float MaxDistance;
+        
         public int NbShoot;
+        public float ShootDelay;
         
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref Damage);
             serializer.SerializeValue(ref NbEnemyTouch);
             serializer.SerializeValue(ref Speed);
+            serializer.SerializeValue(ref MaxDistance);
             
             serializer.SerializeValue(ref NbShoot);
+            serializer.SerializeValue(ref ShootDelay);
         }
     }
     
@@ -68,6 +77,12 @@ public class PlayerShootData : ScriptableObject
             case ShootEnum.BulletSpeed:
                 BulletSpeed += effect.Value;
                 break;
+            case ShootEnum.ShootDelay:
+                ShootDelay += effect.Value;
+                break;
+            case ShootEnum.MaxDistance:
+                MaxDistance += effect.Value;
+                break;
             default:
                 Debug.Log("Type (float) : " + effect.Type + " is not recognize");
                 break;
@@ -81,7 +96,9 @@ public class PlayerShootData : ScriptableObject
             Damage = Damage,
             Speed = BulletSpeed,
             NbEnemyTouch = NbEnemyTouch,
-            NbShoot = NbShoot
+            NbShoot = NbShoot,
+            ShootDelay = ShootDelay,
+            MaxDistance = MaxDistance
         };
     }
 }
