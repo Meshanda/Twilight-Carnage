@@ -7,7 +7,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class XPItemScript : MonoBehaviour
+public class XPItemScript : NetworkBehaviour
 {
     [SerializeField] private BaseXPItem _xpItem;
     [SerializeField] private float _baseFlySpeed;

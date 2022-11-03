@@ -7,7 +7,7 @@ using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class VacuumScript : MonoBehaviour
+public class VacuumScript : NetworkBehaviour
 {
     [SerializeField] private GameEventSO _vacuumEvent;
     private void OnTriggerEnter(Collider other)

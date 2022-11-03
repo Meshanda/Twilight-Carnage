@@ -1,3 +1,4 @@
+using Network;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -31,7 +32,7 @@ public class SpawnEnemieSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_players == null || _players.GetGos().Count <= 1 ||  !NetworkManager.Singleton.IsServer)
+        if (_players == null || _players.GetGos().Count <= GameLobbyManager.Instance.GetPlayers().Count-1 ||  !NetworkManager.Singleton.IsServer)
         {
 
             return;
