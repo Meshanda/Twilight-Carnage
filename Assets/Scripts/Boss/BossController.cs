@@ -7,9 +7,15 @@ using UnityEngine;
 public class BossController : NetworkBehaviour
 {
     [SerializeField] private LaserManager _laser;
+    [SerializeField] private DashManager _dash;
 
-    public void LaunchAbilityOne()
+    public void LaunchLaser()
     {
         _laser.StartAbility();
+    }
+
+    public void LaunchDash()
+    {
+        _dash.StartAbility();
     }
 }

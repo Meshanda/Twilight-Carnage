@@ -378,8 +378,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 4.824628, z: 1}
+  m_Center: {x: 0, y: 1.9123139, z: 0}
 --- !u!54 &322219689
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -453,8 +453,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 5.0549397, z: 1}
+  m_Center: {x: 0, y: 2.0274699, z: 0}
 --- !u!54 &365109735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -628,8 +628,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 4.8677697, z: 1}
+  m_Center: {x: 0, y: 1.9338849, z: 0}
 --- !u!4 &632526949
 Transform:
   m_ObjectHideFlags: 0
@@ -1370,6 +1370,11 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 4851761806300841518, guid: c88ac460162e0f948a76f429e0650e79, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -1513,8 +1518,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 4.9162307, z: 1}
+  m_Center: {x: -0, y: 1.9581153, z: 0}
 --- !u!54 &1494184185
 Rigidbody:
   m_ObjectHideFlags: 0

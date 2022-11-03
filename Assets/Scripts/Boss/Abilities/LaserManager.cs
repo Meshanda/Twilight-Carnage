@@ -23,7 +23,7 @@ public class LaserManager : MonoBehaviour
         if (_hasLaserSpawned)
         {
             // Move Laser Clockwise
-            MoveLaser();
+            // MoveLaser();
 
             _timeSpend += Time.deltaTime;
 
@@ -109,6 +109,9 @@ public class LaserManager : MonoBehaviour
             Vector3 position = _laserSpawnPoint.position;
             laserLineRenderer.SetPosition(0, position);
             laserLineRenderer.SetPosition(1, position + (direction * hit.distance));
+            
+            // Those set position dont apply on clients ....
+            // So their laser dont move and are tiny ....
         }
 
         _hasLaserSpawned = true;
