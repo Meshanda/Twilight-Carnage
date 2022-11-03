@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class PlayerTarget : NetworkBehaviour
+public class PlayerTargetShoot : NetworkBehaviour
 {
 #region Rotation
     [Space(5)]
@@ -30,6 +30,8 @@ public class PlayerTarget : NetworkBehaviour
     private float _bulletXOffset = 0.3f;
 
     private bool _onShoot = false;
+    private bool _canShoot = true;
+    
     private float _bulletTimer;
 #endregion
 
@@ -51,14 +53,16 @@ public class PlayerTarget : NetworkBehaviour
         
         if(_bulletTimer < 0.0f)
         {
-            if (_onShoot)
+            if (_onShoot && _canShoot)
             {
                 ShootServerRpc(_playerShootData.ToStruct());
+                _canShoot = false;
             }
         }
         else
         {
             _bulletTimer -= Time.deltaTime;
+            _canShoot = true;
         }
     }
 
@@ -119,16 +123,19 @@ public class PlayerTarget : NetworkBehaviour
     [ServerRpc]
     private void ShootServerRpc(PlayerShootData.ShootRPC shootData)
     {
-        _bulletTimer = shootData.ShootDelay;
+        //_bulletTimer = shootData.ShootDelay;
+        
+        SetTimerClientRpc(shootData.ShootDelay);
         
         for (int i = 0; i < shootData.NbShoot; i++)
         {
             Vector3 position = transform.position; // decalage de 0.3
-            position += Vector3.right * (i * _bulletXOffset);
+            position += transform.right * (i * _bulletXOffset);
             
             Transform spawnedObject = Instantiate(_bulletPrefab, position, Quaternion.identity);
             spawnedObject.transform.forward = transform.forward;
             spawnedObject.GetComponent<NetworkObject>().Spawn(true);
+            
 
             Bullet bullet = spawnedObject.GetComponent<Bullet>();
 
@@ -136,6 +143,16 @@ public class PlayerTarget : NetworkBehaviour
             bullet.Damage = shootData.Damage;
             bullet.Life = shootData.NbEnemyTouch;
             bullet.Speed = shootData.Speed;
+            bullet.MaxDistance = shootData.MaxDistance;
         }
+    }
+
+    [ClientRpc]
+    private void SetTimerClientRpc(float _bulletTimerN)
+    {
+        if (!IsOwner)
+            return; 
+        
+        _bulletTimer = _bulletTimerN;
     }
 }
