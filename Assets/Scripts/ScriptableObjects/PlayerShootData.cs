@@ -15,14 +15,14 @@ public class PlayerShootData : ScriptableObject
     [SerializeField] private float shootDelay = 2;
 
     // Bullet data
-    public int Damage { get => _damage; private set => _damage = value; }
-    public int NbEnemyTouch { get => _nbEnemyTouch; private set => _nbEnemyTouch = value; } // == bullet life
-    public float BulletSpeed { get => _bulletSpeed; private set => _bulletSpeed = value; }    
-    public float MaxDistance { get => _maxDistance; private set => _maxDistance = value; }    
+    public int Damage { get => _damage; set => _damage = value; }
+    public int NbEnemyTouch { get => _nbEnemyTouch; set => _nbEnemyTouch = value; } // == bullet life
+    public float BulletSpeed { get => _bulletSpeed; set => _bulletSpeed = value; }    
+    public float MaxDistance { get => _maxDistance;  set => _maxDistance = value; }    
 
     // Shoot data
-    public int NbShoot { get => _nbShoot; private set => _nbShoot = value; }
-    public float ShootDelay { get => shootDelay; private set => shootDelay = value; }
+    public int NbShoot { get => _nbShoot; set => _nbShoot = value; }
+    public float ShootDelay { get => shootDelay; set => shootDelay = value; }
 
     public enum ShootEnum
     {

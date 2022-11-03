@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c29e595f2982174bbccbaa76e8f7967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerShootDataDefault: {fileID: 11400000, guid: 7f9bd5388b2d2504ca03ccd24e91f330, type: 2}
   _playerShootData: {fileID: 11400000, guid: 19e97a222f0a31e4ebea35faca995e74, type: 2}
 --- !u!114 &5347083606742197233
 MonoBehaviour:
