@@ -20,7 +20,7 @@ public class GameUI : MonoBehaviour
 
     private void Start()
     {
-        
+        UIManager.Instance.SetCrosshairCursor();
         UpdateLevel();
     }
 
