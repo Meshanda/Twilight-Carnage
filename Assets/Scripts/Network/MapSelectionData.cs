@@ -12,7 +12,6 @@ public class MapSelectionData : ScriptableObject
 [Serializable]
 public struct MapInfo
 {
-    public Color MapThumbnail;
     public string MapName;
     public string SceneName;
 }

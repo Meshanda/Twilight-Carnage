@@ -22,16 +22,27 @@ public class LobbyUI : MonoBehaviour
     
     [Space(10)]
     [Header("Map Selection")]
-    [SerializeField] private Image _mapImage;
     [SerializeField] private Button _mapLeftButton;
     [SerializeField] private Button _mapRightButton;
     [SerializeField] private TextMeshProUGUI _mapName;
     [SerializeField] private MapSelectionData _mapSelectionData;
+    [SerializeField] private List<GameObject> _mapsGo;
     private int _currentMapIndex = 0;
+
+    [Space(10)] 
+    [Header("Skin Selection")] 
+    [SerializeField] private Button _skinLeftButton;
+    [SerializeField] private Button _skinRightButton;
+    [SerializeField] private TextMeshProUGUI _skinName;
+
+    // ToDo : Replace with SO
+    private const int NUMBER_OF_PLAYER_SKINS = 3;
     
     private void OnEnable()
     {
         _readyButton.onClick.AddListener(OnReadyPressed);
+        _skinLeftButton.onClick.AddListener(OnSkinLeftButtonClicked);
+        _skinRightButton.onClick.AddListener(OnSkinRightButtonClicked);
 
         if (GameLobbyManager.Instance.IsHost)
         {
@@ -40,29 +51,33 @@ public class LobbyUI : MonoBehaviour
             _startButton.onClick.AddListener(OnStartButtonClicked);
             
             GameLobbyEvents.OnLobbyReady += OnLobbyReady;
+            GameLobbyEvents.OnLobbyUnReady += OnLobbyUnReady;
         }
 
         GameLobbyEvents.OnLobbyUpdated += OnLobbyUpdated;
     }
-
-   
+    
 
     private void OnDisable()
     {
         _readyButton.onClick.RemoveAllListeners();
+        _startButton.onClick.RemoveAllListeners();
+        
         _mapLeftButton.onClick.RemoveAllListeners();
         _mapRightButton.onClick.RemoveAllListeners();
-        _startButton.onClick.RemoveAllListeners();
-
+        
+        _skinLeftButton.onClick.RemoveAllListeners();
+        _skinRightButton.onClick.RemoveAllListeners();
         
         GameLobbyEvents.OnLobbyUpdated -= OnLobbyUpdated;
         GameLobbyEvents.OnLobbyReady -= OnLobbyReady;
+        GameLobbyEvents.OnLobbyUnReady -= OnLobbyUnReady;
 
     }
 
     private void Start()
     {
-        _lobbyCodeText.text = "Lobby code: " + GameLobbyManager.Instance.GetLobbyCode();
+        _lobbyCodeText.text = GameLobbyManager.Instance.GetLobbyCode();
 
         if (!GameLobbyManager.Instance.IsHost)
         {
@@ -71,6 +86,45 @@ public class LobbyUI : MonoBehaviour
         }
     }
     
+    private async void OnSkinRightButtonClicked()
+    {
+        var skinIndex = GameLobbyManager.Instance.GetLocalSkinIndex();
+        
+        if (skinIndex + 1 <= NUMBER_OF_PLAYER_SKINS - 1)
+        {
+            skinIndex++;
+        }
+        else
+        {
+            skinIndex = 0;
+        }
+        
+        UpdateSkin(skinIndex);
+        await GameLobbyManager.Instance.SetLocalSkinIndex(skinIndex);
+    }
+
+    private async void OnSkinLeftButtonClicked()
+    {
+        var skinIndex = GameLobbyManager.Instance.GetLocalSkinIndex();
+        
+        if (skinIndex - 1 >= 0)
+        {
+            skinIndex--;
+        }
+        else
+        {
+            skinIndex = NUMBER_OF_PLAYER_SKINS - 1;
+        }
+
+        UpdateSkin(skinIndex);
+        await GameLobbyManager.Instance.SetLocalSkinIndex(skinIndex);
+    }
+
+    private void UpdateSkin(int index)
+    {
+        _skinName.text = "Skin" + index + 1;
+    }
+
     private async void OnMapLeftButtonClicked()
     {
         if (_currentMapIndex - 1 >= 0)
@@ -110,8 +164,12 @@ public class LobbyUI : MonoBehaviour
 
     private void UpdateMap()
     {
-        _mapImage.color = _mapSelectionData.Maps[_currentMapIndex].MapThumbnail;
         _mapName.text = _mapSelectionData.Maps[_currentMapIndex].MapName;
+
+        for (var i = 0; i < _mapsGo.Count; i++)
+        {
+            _mapsGo[i].SetActive(i == _currentMapIndex);
+        }
     }
     
     private void OnLobbyUpdated()
@@ -123,6 +181,11 @@ public class LobbyUI : MonoBehaviour
     private void OnLobbyReady()
     {
         _startButton.gameObject.SetActive(true);
+    }
+
+    private void OnLobbyUnReady()
+    {
+        _startButton.gameObject.SetActive(false);
     }
 
     private async void OnStartButtonClicked()

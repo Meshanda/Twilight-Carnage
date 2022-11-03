@@ -91,19 +91,12 @@ public class EnemySpawner : MonoBehaviour
         {
             GameObject test = Instantiate(GISO.GetItemPrefab(), GetRandomPositionOnPlane(), Quaternion.identity);
             test.GetComponent<NetworkObject>().Spawn();
-            Debug.Log("Dropped item name : " + test.name);
         }
-        else
-        {
-            Debug.Log("No item dropped");
-        }
-
         BaseXPItem BXPI = GLTSO.DroppedXP();
         if (BXPI)
         {
             GameObject test = Instantiate(BXPI.GetItemPrefab(), GetRandomPositionOnPlane(), Quaternion.identity);
             test.GetComponent<NetworkObject>().Spawn();
-            Debug.Log("Dropped XP name : " + test.name);
         }
         Debug.Log("Enemy is Dead.");
     }
