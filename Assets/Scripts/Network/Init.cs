@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
@@ -8,6 +9,7 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class Init : MonoBehaviour
 {
@@ -17,7 +19,9 @@ public class Init : MonoBehaviour
         var options = new InitializationOptions();
 #if UNITY_EDITOR
         options.SetProfile(ClonesManager.IsClone() ? ClonesManager.GetArgument() : "MasterProfile");
-#endif
+#else
+        options.SetProfile((DateTime.Now.Millisecond * Random.seed).ToString());
+#endif  
 
         await UnityServices.InitializeAsync(options);
 
