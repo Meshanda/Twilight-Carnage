@@ -8,6 +8,19 @@ public class UIManager : GenericSingleton<UIManager>
     [SerializeField] private Texture2D _menuCursor;
     [SerializeField] private Texture2D _crosshairCursor;
 
+    private string _name;
+
+    public string Name
+    {
+        get => _name;
+        set => _name = value;
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     private void Start()
     {
         SetMenuCursor();

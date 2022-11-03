@@ -21,16 +21,11 @@ public class GameUI : MonoBehaviour
     private void Start()
     {
         UIManager.Instance.SetCrosshairCursor();
-        UpdateLevel();
     }
 
     private void Update()
     {
         _fillBar.fillAmount = _xpSo.value / _xpMaxSo.value;
-    }
-
-    public void UpdateLevel()
-    {
         _levelLabel.text = "Level " + _lvlSo.value;
     }
 }

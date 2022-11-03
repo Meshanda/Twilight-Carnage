@@ -15,7 +15,10 @@ public class PlayerAnimation : MonoBehaviour
         _lastPosition = transform.position;
     }
 
-    // Update is called once per frame
+    public void SetAnimator(Animator animator)
+    {
+        _animator = animator;
+    }
     void Update()
     {
         IsMoving();

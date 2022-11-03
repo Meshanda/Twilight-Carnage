@@ -13,4 +13,5 @@ public class SkinSelectionData : ScriptableObject
 public struct SkinInfo
 {
     public string SkinName;
+    public GameObject Model;
 }

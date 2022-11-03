@@ -9,7 +9,11 @@ public abstract class GenericSingleton<T> : MonoBehaviour where T : GenericSingl
         get
         {
             // if instance is already set
-            if (_instance != null) return _instance;
+            if (_instance != null)
+            {
+                DontDestroyOnLoad(_instance.gameObject);
+                return _instance;
+            }
             
             // find the singleton
             var objs = FindObjectsOfType<T>();
@@ -19,6 +23,7 @@ public abstract class GenericSingleton<T> : MonoBehaviour where T : GenericSingl
             {
                 var instance = objs[0];
                 _instance = instance;
+                DontDestroyOnLoad(instance.gameObject);
             }
             else // else create a new GameObject then set it to the instance
             {
