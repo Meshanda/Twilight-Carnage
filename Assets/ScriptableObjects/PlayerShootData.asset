@@ -16,5 +16,5 @@ MonoBehaviour:
   _nbEnemyTouch: 1
   _bulletSpeed: 20
   _maxDistance: 15
-  _nbShoot: 2
-  shootDelay: 2
+  _nbShoot: 1
+  shootDelay: 0.5

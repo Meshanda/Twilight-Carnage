@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb74000257c194c4a92e366c27b67a3e, type: 3}
-  m_Name: FSO_MaxDistance
+  m_Name: MaxDistance
   m_EditorClassIdentifier: 
   Type: 5
-  Value: 500
+  Value: 10
