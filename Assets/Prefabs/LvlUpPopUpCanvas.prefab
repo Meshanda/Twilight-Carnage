@@ -961,9 +961,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 5825768677621612205}
-  _damageUp: {fileID: 11400000, guid: 3c5d7136b730b4842a37600bb83f3ef6, type: 2}
+  _damageUp: {fileID: 11400000, guid: e3a7b4d692e5fa043a2261df7f069536, type: 2}
   _numberUp: {fileID: 11400000, guid: 3c5d7136b730b4842a37600bb83f3ef6, type: 2}
-  _pierceUp: {fileID: 11400000, guid: 3c5d7136b730b4842a37600bb83f3ef6, type: 2}
+  _pierceUp: {fileID: 11400000, guid: df994744cea0971489a045ef10d2b041, type: 2}
   _speedUp: {fileID: 11400000, guid: 4c6e73ae63d6caf4ab24634cc5985b82, type: 2}
 --- !u!114 &5825768677641578330
 MonoBehaviour:
