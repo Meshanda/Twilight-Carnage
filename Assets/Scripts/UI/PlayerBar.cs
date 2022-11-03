@@ -2,13 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBar : MonoBehaviour
 {
-    [SerializeField] private Camera _cam;
+    [SerializeField] private PlayerHpSetter _hpComponent;
+    [SerializeField] private Image _img;
 
-    private void LateUpdate()
+    private void Update()
     {
-        transform.LookAt(_cam.transform);
+        _img.fillAmount = _hpComponent.CurrentHp / _hpComponent.MaxHp;
     }
 }

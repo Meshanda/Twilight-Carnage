@@ -10,6 +10,9 @@ public class PlayerHpSetter : NetworkBehaviour
     [SerializeField] private float _maxHp;
     [SerializeField] private GameEventSO _death;
 
+    public float CurrentHp => _hp.Value;
+    public float MaxHp => _maxHp;
+
     // Start is called before the first frame update
     void Start()
     {
