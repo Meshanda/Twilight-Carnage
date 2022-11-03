@@ -15968,7 +15968,6 @@ GameObject:
   m_Component:
   - component: {fileID: 676566337}
   - component: {fileID: 676566336}
-  - component: {fileID: 676566335}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -15976,36 +15975,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &676566335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 676566334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecc81f47372e6774a863e0c9cda36c0a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _eventListeners:
-  - _events:
-    - {fileID: 11400000, guid: 9d05a7c5314a28648a92c38e051692da, type: 2}
-    _onEventRaised:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 676566336}
-          m_TargetAssemblyTypeName: GameOverlay, Assembly-CSharp
-          m_MethodName: UpdateLevel
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &676566336
 MonoBehaviour:
   m_ObjectHideFlags: 0

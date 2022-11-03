@@ -53,7 +53,7 @@ namespace Network
         {
             _localLobbyPlayerData = new LobbyPlayerData();
             _localLobbyPlayerData.Initialize(AuthenticationService.Instance.PlayerId, "JoinPlayer");
-
+            
             return await LobbyManager.Instance.JoinLobby(lobbyCode, _localLobbyPlayerData.Serialize());
         }
         

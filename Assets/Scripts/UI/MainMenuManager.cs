@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -11,22 +12,27 @@ namespace UI
 {
     public class MainMenuManager : MonoBehaviour
     {
-        // Play Menu
+        [Header("Play Menu")]
         [SerializeField] private GameObject playMenu;
         [SerializeField] private Button hostButton;
         [SerializeField] private Button joinButton;
         
-        // Join Menu
+        [Header("Join Menu")]
         [SerializeField] private GameObject joinMenu;
         [SerializeField] private Button submitCodeButton;
         [SerializeField] private TextMeshProUGUI codeText;
+
+        [Header("Name Panel")] 
+        [SerializeField] private GameObject _namePanel;
+        [SerializeField] private Button _nameSubmit;
+        [SerializeField] private TextMeshProUGUI _nameText;
 
         private const string LOBBY_SCENE = "Lobby";
         
         private void OnEnable()
         {
-            hostButton.onClick.AddListener(OnHostClicked);
-            joinButton.onClick.AddListener(OnJoinClicked);
+            hostButton.onClick.AddListener(SetUpNamePanelHost);
+            joinButton.onClick.AddListener(SetUpNamePanelJoin);
             
             submitCodeButton.onClick.AddListener(OnSubmitClicked);
         }
@@ -73,6 +79,18 @@ namespace UI
             joinMenu.SetActive(false);
         }
 
+        private void SetUpNamePanelHost()
+        {
+            _nameSubmit.onClick.AddListener(OnHostClicked);
+        }
+        private void SetUpNamePanelJoin()
+        {
+            _nameSubmit.onClick.AddListener(OnJoinClicked);
+        }
+        public void SetName()
+        {
+            UIManager.Instance.Name = _nameText.text;
+        }
         public void QuitButton()
         {
 #if UNITY_EDITOR
