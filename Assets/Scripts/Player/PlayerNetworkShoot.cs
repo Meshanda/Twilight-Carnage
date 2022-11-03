@@ -6,14 +6,12 @@ public class PlayerNetworkShoot : NetworkBehaviour
 {
     [SerializeField] private Transform _bulletPrefab;
 
-    private BulletManager _bulletManager;
     private PlayerShootData _playerShootData;
 
     private float _bulletXOffset = 0.3f;
 
     private void Start()
     {
-        _bulletManager = GameObject.Find("BulletManager").GetComponent<BulletManager>();
         _playerShootData = GetComponent<PlayerNetworkData>().PlayerShootData;
     }
 
@@ -55,7 +53,8 @@ public class PlayerNetworkShoot : NetworkBehaviour
             bullet.Life = shootData.NbEnemyTouch;
             bullet.Speed = shootData.Speed;
 
-            _bulletManager.AddBullet(bullet);
+            BulletManager.Instance.AddBullet(bullet);
         }
     }
+    
 }

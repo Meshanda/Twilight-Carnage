@@ -6,6 +6,7 @@ using UnityEngine;
 public class XpManager : NetworkBehaviour
 {
     [SerializeField] private ScriptableObjects.Variables.FloatVariable _lvlSo, _xpSo, _xpThreshSo;
+    [SerializeField] private GameEventSO _lvlUp;
     [SerializeField] private NetworkVariable<float> xp, lvl;
     [SerializeField] private NetworkVariable<float> _lvlThreshold;
     [SerializeField] float _refreshRate;
@@ -17,6 +18,7 @@ public class XpManager : NetworkBehaviour
     {
         _lvlSo.value = 0;
         _xpSo.value = 0;
+        _xpThreshSo.value = _lvlThreshold.Value;
     }
 
     // Update is called once per frame
@@ -27,10 +29,10 @@ public class XpManager : NetworkBehaviour
             _time = _refreshRate;
         else
             return;
-        if (NetworkManager.IsClient && !NetworkManager.Singleton.IsServer )
-        {
-            _xpSo.value += 5;
-        }
+        //if (NetworkManager.IsClient && !NetworkManager.Singleton.IsServer )
+        //{
+        //    _xpSo.value += 5;
+        //}
         _xpThreshSo.value = _lvlThreshold.Value;
 
         if (lvl.Value > _lvlSo.value)
@@ -71,6 +73,7 @@ public class XpManager : NetworkBehaviour
     private void lvlUpClientRpc(float xp)
     {
         _xpSo.value = xp;
+        _lvlUp.Raise();
     }
 
     [ClientRpc]
