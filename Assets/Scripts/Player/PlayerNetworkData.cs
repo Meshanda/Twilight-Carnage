@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerNetworkData : MonoBehaviour
+public class PlayerNetworkData : NetworkBehaviour
 {
     [SerializeField] private PlayerShootData _playerShootDataDefault;
     [SerializeField] private PlayerShootData _playerShootData;
@@ -26,6 +27,8 @@ public class PlayerNetworkData : MonoBehaviour
 
     private void ResetValueToDefault()
     {
+        if (!IsOwner) return;
+        
         _playerShootData.Damage = _playerShootDataDefault.Damage;
         _playerShootData.BulletSpeed = _playerShootDataDefault.BulletSpeed;
         _playerShootData.NbShoot = _playerShootDataDefault.NbShoot;
