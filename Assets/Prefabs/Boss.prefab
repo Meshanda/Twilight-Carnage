@@ -223,8 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09c7a2aee18df748ad489b34739bb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _laserBaseCooldown: 15
-  _dashBaseCooldown: 5
+  _dashBaseCooldown: 3
   _abilityBaseGlobalCooldown: 5
   _controller: {fileID: 6807013059201208326}
 --- !u!114 &7630312348118597595
