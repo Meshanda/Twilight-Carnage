@@ -1827,6 +1827,8 @@ MonoBehaviour:
   enemyStatSO: {fileID: 11400000, guid: f1d89fd996388b64d90de4428d3cfcb7, type: 2}
   enemyLootTableSO: {fileID: 11400000, guid: abe7c3a92b202c442931a023eccfee0b, type: 2}
   timeBetweenRetarget: 1
+  _players: {fileID: 0}
+  _nbreEnemy: {fileID: 0}
 --- !u!1 &4710940672626480558
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,16 +15,21 @@ public class LaserManager : NetworkBehaviour
 
     [SerializeField] private bool _moveLaser;
 
+    [SerializeField] private Transform _topLevelParentTransform;
+
     private List<Transform> _spawnedLasers = new List<Transform>();
 
     private bool _hasLaserSpawned;
 
     private float _timeSpend = 0.0f;
 
+    private Vector3 _posStartOfLaser;
+
     private void Update()
     {
         if (_hasLaserSpawned)
         {
+            //_topLevelParentTransform.position = _posStartOfLaser;
             if(_moveLaser)
                 MoveLaserClientRpc(_laserSpeed);
 
@@ -62,8 +67,11 @@ public class LaserManager : NetworkBehaviour
 
             Vector3 newDirection = new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), 0, Mathf.Cos(Mathf.Deg2Rad * angle));
 
+            int layerMask = 1 << 8;
+            layerMask = ~layerMask;
+            
             RaycastHit hit;
-            Physics.Raycast(transform.position, newDirection, out hit, Mathf.Infinity);
+            Physics.Raycast(transform.position, newDirection, out hit, Mathf.Infinity, layerMask); 
 
             laserLineRenderer.SetPosition(1, _laserSpawnPoint.position + (newDirection * hit.distance));
         }
@@ -92,6 +100,7 @@ public class LaserManager : NetworkBehaviour
 
     public void StartAbility()
     {
+        //_posStartOfLaser = _topLevelParentTransform.position;
         LaserClientRpc(_nbLaser);
     }
 
