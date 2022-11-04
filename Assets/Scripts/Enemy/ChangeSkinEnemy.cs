@@ -13,11 +13,6 @@ public class ChangeSkinEnemy : MonoBehaviour
     void Start()
     {
         _randomSkinChosen = Random.Range(0, _skinList.Count);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _skinList[_randomSkinChosen].active = true;
     }
 }
