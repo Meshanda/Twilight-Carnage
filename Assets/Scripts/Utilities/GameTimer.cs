@@ -14,7 +14,7 @@ public class GameTimer : NetworkBehaviour
     
     public GameEventSO TimerBossTrigger;
     public float TimerBossTriggerValue = 60.0f;
-    private bool _triggerredEvent = false;
+    private float _tempValue = 0.0f;
 
     private void Update()
     {
@@ -24,11 +24,12 @@ public class GameTimer : NetworkBehaviour
             return;
 
         Timer.Value += Time.deltaTime;
+        _tempValue += Time.deltaTime;
 
-        if (Timer.Value >= TimerBossTriggerValue && !_triggerredEvent)
+        if (_tempValue >= TimerBossTriggerValue)
         {
             print("TIMERRRRRRR");
-            _triggerredEvent = true;
+            _tempValue -= TimerBossTriggerValue;
             TimerBossTrigger.Raise();
         }
     }
