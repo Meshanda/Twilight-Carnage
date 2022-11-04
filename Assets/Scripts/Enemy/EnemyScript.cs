@@ -16,7 +16,7 @@ public class EnemyScript : NetworkBehaviour
     [SerializeField] private ScriptableObjects.Variables.FloatVariable _nbreEnemy;
     private NetworkVariable<float> _health = new NetworkVariable<float>();
     private GameObject _target;
-    
+
     private void Start()
     {
         if (NetworkManager.Singleton.IsServer)
@@ -93,7 +93,7 @@ public class EnemyScript : NetworkBehaviour
 
     public void OnDestroy()
     {
-        //_nbreEnemy.value--;
+        _nbreEnemy.value--;
     }
 
 }
