@@ -19,9 +19,11 @@ public class PopUpFreeze : NetworkBehaviour
 
     // PowerUps
     [SerializeField] private IntEffect _damageUp;
-    [SerializeField] private IntEffect _numberUp;
-    [SerializeField] private IntEffect _pierceUp;
     [SerializeField] private FloatEffect _speedUp;
+    [SerializeField] private IntEffect _pierceUp;
+    [SerializeField] private IntEffect _numberUp;
+    [SerializeField] private FloatEffect _distanceShoot;
+    [SerializeField] private FloatEffect _shootDelay;
 
     private PlayerShootData _playerShootData;
     
@@ -155,8 +157,14 @@ public class PopUpFreeze : NetworkBehaviour
             case 3:
                 _playerShootData.ApplyEffect(_pierceUp);
                 break;
-            default:
+            case 4:
                 _playerShootData.ApplyEffect(_numberUp);
+                break;
+            case 5:
+                _playerShootData.ApplyEffect(_distanceShoot);
+                break;
+            case 6:
+                _playerShootData.ApplyEffect(_shootDelay);
                 break;
         }
 

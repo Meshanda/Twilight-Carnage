@@ -30,5 +30,7 @@ public class PlayerNetworkData : MonoBehaviour
         _playerShootData.BulletSpeed = _playerShootDataDefault.BulletSpeed;
         _playerShootData.NbShoot = _playerShootDataDefault.NbShoot;
         _playerShootData.NbEnemyTouch = _playerShootDataDefault.NbEnemyTouch;
+        _playerShootData.MaxDistance = _playerShootDataDefault.MaxDistance;
+        _playerShootData.ShootDelay = _playerShootDataDefault.ShootDelay;
     }
 }

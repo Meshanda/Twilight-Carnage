@@ -79,6 +79,7 @@ public class PlayerShootData : ScriptableObject
                 break;
             case ShootEnum.ShootDelay:
                 ShootDelay += effect.Value;
+                if (ShootDelay < 0.1f) ShootDelay = 0.1f;
                 break;
             case ShootEnum.MaxDistance:
                 MaxDistance += effect.Value;
