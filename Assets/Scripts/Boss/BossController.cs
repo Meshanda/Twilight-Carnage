@@ -9,6 +9,7 @@ public class BossController : NetworkBehaviour
     [SerializeField] private LaserManager _laser;
     [SerializeField] private DashManager _dash;
 
+    //Not implemented
     public void LaunchLaser()
     {
         _laser.StartAbility();

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: ShootDelay
   m_EditorClassIdentifier: 
   Type: 4
-  Value: -0.5
+  Value: -0.1

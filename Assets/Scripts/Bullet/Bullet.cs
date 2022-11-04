@@ -52,11 +52,13 @@ public class Bullet : NetworkBehaviour
 
     public void OnTriggerEnter(Collider other) 
     {
-        EnemyScript  es = other.GetComponent<EnemyScript>();
+        EnemyScript es = other.GetComponent<EnemyScript>();
         if (es == null)
             return;
         es.Damage(Damage);
-        ImpactBulletServerRPC();
+        Life -= 1;
+        if(IsDead())
+            ImpactBulletServerRPC();
     }
 
     [ServerRpc(RequireOwnership = false)]
