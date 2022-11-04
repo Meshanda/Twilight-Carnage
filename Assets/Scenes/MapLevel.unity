@@ -27561,7 +27561,7 @@ MonoBehaviour:
   _timeInit: 5
   _vectorOffset: 0.75
   _nbrSpawnned: {fileID: 11400000, guid: b18f8f76a56ec7642a250c66c1a6d1bc, type: 2}
-  _maxSpawn: 60
+  _maxSpawn: 20
 --- !u!4 &1159361136
 Transform:
   m_ObjectHideFlags: 0
@@ -28054,7 +28054,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9e883b6e7e36db048b286ea954b59dc3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.306122
+      value: -6.3
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9e883b6e7e36db048b286ea954b59dc3, type: 3}
       propertyPath: m_LocalPosition.y
