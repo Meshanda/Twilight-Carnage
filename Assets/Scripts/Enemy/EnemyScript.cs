@@ -41,8 +41,6 @@ public class EnemyScript : NetworkBehaviour
         
         if (NetworkManager.Singleton.IsServer && _health.Value <= 0)
         {
-
-           
             Death();
         }
     }
@@ -95,7 +93,7 @@ public class EnemyScript : NetworkBehaviour
 
     public void OnDestroy()
     {
-        _nbreEnemy.value--;
+        //_nbreEnemy.value--;
     }
 
 }
