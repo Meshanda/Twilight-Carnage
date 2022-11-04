@@ -7,9 +7,9 @@ public class SpawnBossScript : MonoBehaviour
 {
     [SerializeField] GameObject _bossPrefab;
 
-    public void SpawnBoss(Vector3 position, Quaternion rotation, Transform parent)
+    public void SpawnBoss()
     {
-        GameObject gameObject = Instantiate(_bossPrefab, position, rotation, parent);
+        GameObject gameObject = Instantiate(_bossPrefab);
         gameObject.GetComponent<NetworkObject>().Spawn();
     }
 }

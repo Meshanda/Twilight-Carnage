@@ -27598,6 +27598,8 @@ GameObject:
   - component: {fileID: 1159361136}
   - component: {fileID: 1159361137}
   - component: {fileID: 1159361135}
+  - component: {fileID: 1159361139}
+  - component: {fileID: 1159361138}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -27652,6 +27654,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _players: {fileID: 11400000, guid: f39047d67e34f834faf299c61cb345b6, type: 2}
+--- !u!114 &1159361138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159361134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc81f47372e6774a863e0c9cda36c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventListeners:
+  - _events:
+    - {fileID: 11400000, guid: d5dc41d1b10c7914f8d78537afd8d7ad, type: 2}
+    _onEventRaised:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1159361139}
+          m_TargetAssemblyTypeName: SpawnBossScript, Assembly-CSharp
+          m_MethodName: SpawnBoss
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1159361139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159361134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078098fe7b710754295026dcb8dd4b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bossPrefab: {fileID: 3977371505023057436, guid: d4af0015eb9c23f4bb68c2a2c52169cd, type: 3}
 --- !u!1 &1159511706 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 3d30d76bf390fc742b8fdd356d040839, type: 3}
