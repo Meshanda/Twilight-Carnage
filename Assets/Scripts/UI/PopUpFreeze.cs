@@ -24,11 +24,7 @@ public class PopUpFreeze : NetworkBehaviour
     [SerializeField] private FloatEffect _speedUp;
 
     private PlayerShootData _playerShootData;
-
-    private void Start()
-    {
-    }
-
+    
     public override void OnNetworkSpawn()
     {
         _playerShootData = NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerNetworkData>()
@@ -45,10 +41,12 @@ public class PopUpFreeze : NetworkBehaviour
     {
         if (IsTimeFreezed())
         {
+            UIManager.Instance.SetCrosshairCursor();
             StopFreezeClientRpc();
         }
         else
         {
+            UIManager.Instance.SetMenuCursor();
             StartFreezeClientRpc();
         }
     }

@@ -32,8 +32,14 @@ public class PlayerTargetShoot : NetworkBehaviour
 
     private bool _onShoot = false;
     private bool _canShoot = true;
+
+    public bool CanShoot
+    {
+        set => _canShoot = value;
+    }
     
     private float _bulletTimer;
+
 #endregion
 
     [SerializeField] private LayerMask _terrainLayer;
