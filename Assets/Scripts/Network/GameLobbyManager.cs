@@ -99,6 +99,7 @@ namespace Network
             if (_lobbyData.RelayJoinCode != default)
             {
                 await JoinRelayServer(_lobbyData.RelayJoinCode);
+                _lobbyData.RelayJoinCode = default;
             }
         }
 
