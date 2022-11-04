@@ -33,7 +33,9 @@ public class UIManager : GenericSingleton<UIManager>
     
     public void SetCrosshairCursor()
     {
-        Cursor.SetCursor(_crosshairCursor, Vector2.zero, CursorMode.ForceSoftware);
+        Vector2 test = Vector2.zero;
+        test.y = 80f;
+        Cursor.SetCursor(_crosshairCursor, test, CursorMode.ForceSoftware);
     }
 
     public void SetCursorVisibility(bool visible)

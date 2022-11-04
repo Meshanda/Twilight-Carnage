@@ -5,6 +5,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UIElements;
 
 public class PlayerTargetShoot : NetworkBehaviour
@@ -28,7 +29,7 @@ public class PlayerTargetShoot : NetworkBehaviour
 
     private PlayerShootData _playerShootData;
 
-    private float _bulletXOffset = 0.3f;
+    private float _bulletXOffset = 0.5f;
 
     private bool _onShoot = false;
     private bool _canShoot = true;
@@ -45,9 +46,14 @@ public class PlayerTargetShoot : NetworkBehaviour
     [SerializeField] private LayerMask _terrainLayer;
     [SerializeField] private Camera _camera;
     [SerializeField] private Transform _bulletOrigine;
-    private void Start()
+
+    private void Awake()
     {
         _playerShootData = GetComponentInChildren<PlayerNetworkData>().PlayerShootData;
+    }
+
+    private void Start()
+    {
     }
 
     // Update is called once per frame
@@ -136,10 +142,10 @@ public class PlayerTargetShoot : NetworkBehaviour
         
         for (int i = 0; i < shootData.NbShoot; i++)
         {
-            Vector3 position = transform.position; // decalage de 0.3
-            position += transform.right * (i * _bulletXOffset);
+            Vector3 position = _bulletOrigine.position; // decalage de 0.3
+            position += _rotateFrom.transform.right * (i * _bulletXOffset);
             
-            Transform spawnedObject = Instantiate(_bulletPrefab, _bulletOrigine.position, Quaternion.identity);
+            Transform spawnedObject = Instantiate(_bulletPrefab, position, Quaternion.identity);
             spawnedObject.transform.forward = _rotateFrom.transform.forward;
             spawnedObject.GetComponent<NetworkObject>().Spawn(true);
             

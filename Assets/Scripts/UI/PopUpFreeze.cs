@@ -43,12 +43,10 @@ public class PopUpFreeze : NetworkBehaviour
     {
         if (IsTimeFreezed())
         {
-            UIManager.Instance.SetCrosshairCursor();
             StopFreezeClientRpc();
         }
         else
         {
-            UIManager.Instance.SetMenuCursor();
             StartFreezeClientRpc();
         }
     }
@@ -90,15 +88,15 @@ public class PopUpFreeze : NetworkBehaviour
     [ClientRpc]
     public void StartFreezeClientRpc()
     {
-        if (!NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerHpSetter>().IsDead())
-            StartFreeze();
+        StartFreeze();
+        
     }
 
     [ClientRpc]
     void StopFreezeClientRpc()
     {
-        if (!NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerHpSetter>().IsDead())
-            StopFreeze();
+        
+        StopFreeze();
     }
 
     public void StartFreeze()
@@ -120,7 +118,11 @@ public class PopUpFreeze : NetworkBehaviour
         _isAnimating = false;
 
         // show UI
-        _canvas.enabled = true;
+        if (!NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerHpSetter>().IsDead())
+        {
+            _canvas.enabled = true;
+            UIManager.Instance.SetMenuCursor();
+        }
     }
 
     public void StopFreeze()
@@ -133,7 +135,12 @@ public class PopUpFreeze : NetworkBehaviour
         StopFreezeTimeCoroutine();
         StartCoroutine(FreezeTimeCoroutine(false));
         // hide UI
-        _canvas.enabled = false;
+        
+        if (!NetworkManager.SpawnManager.GetLocalPlayerObject().GetComponent<PlayerHpSetter>().IsDead())
+        {
+            _canvas.enabled = false;
+            UIManager.Instance.SetCrosshairCursor();
+        }
     }
 
     private void TimeUnfreezed()
