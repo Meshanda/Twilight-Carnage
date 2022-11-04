@@ -29,7 +29,7 @@ public class LaserManager : NetworkBehaviour
     {
         if (_hasLaserSpawned)
         {
-            _topLevelParentTransform.position = _posStartOfLaser;
+            //_topLevelParentTransform.position = _posStartOfLaser;
             if(_moveLaser)
                 MoveLaserClientRpc(_laserSpeed);
 
@@ -100,7 +100,7 @@ public class LaserManager : NetworkBehaviour
 
     public void StartAbility()
     {
-        _posStartOfLaser = _topLevelParentTransform.position;
+        //_posStartOfLaser = _topLevelParentTransform.position;
         LaserClientRpc(_nbLaser);
     }
 

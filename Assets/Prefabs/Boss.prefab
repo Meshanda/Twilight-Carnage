@@ -112,9 +112,9 @@ MonoBehaviour:
   _bossBulletPrefab: {fileID: 4851761806300841517, guid: c88ac460162e0f948a76f429e0650e79, type: 3}
   _dashDistance: 5
   _speed: 15
-  _shootDuringDash: 1
+  _shootDuringDash: 0
   _intervalShootDuring: 0.1
-  _shootAfterDash: 1
+  _shootAfterDash: 0
   _nbShootAfter: 1
 --- !u!1 &3977371505023057436
 GameObject:
@@ -223,12 +223,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b09c7a2aee18df748ad489b34739bb15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBehaviourSO: {fileID: 0}
-  enemyStatSO: {fileID: 0}
-  enemyLootTableSO: {fileID: 0}
-  timeBetweenRetarget: 1
-  _players: {fileID: 0}
-  _nbreEnemy: {fileID: 0}
   _laserBaseCooldown: 15
   _dashBaseCooldown: 5
   _abilityBaseGlobalCooldown: 5
