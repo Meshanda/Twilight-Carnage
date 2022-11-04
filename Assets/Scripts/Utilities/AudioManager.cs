@@ -49,13 +49,10 @@ public class AudioManager : NetworkBehaviour
     {
         if (!IsPlaying("theme"))
             Play("theme"); // we play the theme song
-        
-        if (!IsOwner)
-            return;
-        
+
         if (Input.GetKeyDown(KeyCode.A))
         {
-            LaunchTauntSoundServerRpc();
+            Play("taunt");
         }
     }
 

@@ -8,6 +8,8 @@ public class SpawnNetworkObject : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (!NetworkManager.Singleton.IsHost) return;
+        
         var networkObject = GetComponent<NetworkObject>();
         if (!networkObject.IsSpawned)
             networkObject.Spawn(true);

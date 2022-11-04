@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047260550720861691}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 367.70993, y: 246.23044, z: 46.94225}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -60,9 +60,9 @@ MonoBehaviour:
   - Name: taunt
     Type: 1
     Blend: 0
-    Clip: {fileID: 8300000, guid: 76bda8ed145d7c54f8497aea65dd9f88, type: 3}
+    Clip: {fileID: 8300000, guid: 357809d6c15830744893e7ac4c0a6ce6, type: 3}
     Loop: 0
-    Volume: 0.5
+    Volume: 0.6
     Source: {fileID: 0}
 --- !u!114 &1047260550720861636
 MonoBehaviour:
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047260550720861691}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ced3480146b6d94e98ca264d6f394dd, type: 3}
   m_Name: 
