@@ -47,7 +47,7 @@ public class BossScript : EnemyScript
             {
                 _controller.LaunchDash();
                 _bHasDashOccured = true;
-                _dashCooldown = _laserBaseCooldown;
+                _dashCooldown = _dashBaseCooldown;
                 _abilityGlobalCooldown = _abilityBaseGlobalCooldown;
                 return;
             }
