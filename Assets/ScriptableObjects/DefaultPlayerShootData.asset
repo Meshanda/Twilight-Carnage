@@ -17,4 +17,4 @@ MonoBehaviour:
   _bulletSpeed: 10
   _maxDistance: 15
   _nbShoot: 1
-  shootDelay: 2
+  shootDelay: 0.5
